@@ -10,37 +10,39 @@ import {
 	Perex,
 	ArticleLink,
 	CommentsText,
-	ArticlesWrapper,
 	ArticleComponent,
+	BottomWrapper,
 } from './components';
 
 type ArticleProps = ArticleType;
 const Article: React.FC<ArticleProps> = function (props) {
-	const { title, perex } = props;
+	const { title, perex, createdAt } = props;
 
 	return (
-		<ArticlesWrapper>
-			<ArticleComponent>
-				<Image />
+		<ArticleComponent>
+			<Image />
 
-				<ImageInfo>
-					<Title>{title}</Title>
+			<ImageInfo>
+				<Title>{title}</Title>
 
-					<Wrapper>
-						<Author>Elisabeth Strain</Author>
-						<Bullet>&bull;</Bullet>
-						<CreationDate>02/13/17</CreationDate>
-					</Wrapper>
+				<Wrapper>
+					<Author>Elisabeth Strain</Author>
+					<Bullet>&bull;</Bullet>
+					<CreationDate>
+						{`${new Date(createdAt).getMonth() + 1}/${new Date(createdAt).getDate()}/${new Date(
+							createdAt
+						).getFullYear()}`}
+					</CreationDate>
+				</Wrapper>
 
-					<Perex>{perex}</Perex>
+				<Perex>{perex}</Perex>
 
-					<Wrapper>
-						<ArticleLink>Read whole article</ArticleLink>
-						<CommentsText>4 comments</CommentsText>
-					</Wrapper>
-				</ImageInfo>
-			</ArticleComponent>
-		</ArticlesWrapper>
+				<BottomWrapper>
+					<ArticleLink>Read whole article</ArticleLink>
+					<CommentsText>4 comments</CommentsText>
+				</BottomWrapper>
+			</ImageInfo>
+		</ArticleComponent>
 	);
 };
 

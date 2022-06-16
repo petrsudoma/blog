@@ -9,3 +9,8 @@ export const Heading = styled.h1`
 		margin-top: calc(50px + 20%);
 	}
 `;
+
+export const ArticlesWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
