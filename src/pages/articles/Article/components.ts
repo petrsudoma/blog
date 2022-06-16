@@ -51,7 +51,7 @@ export const CreationDate = styled.p`
 	color: #6c757d;
 `;
 
-export const Content = styled.p`
+export const Perex = styled.p`
 	font-size: 0.7em;
 	font-family: 300;
 `;

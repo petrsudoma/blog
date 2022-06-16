@@ -1,3 +1,4 @@
+import { ArticleType } from '../../../types';
 import {
 	Author,
 	Wrapper,
@@ -6,21 +7,24 @@ import {
 	ImageInfo,
 	Title,
 	CreationDate,
-	Content,
+	Perex,
 	ArticleLink,
 	CommentsText,
 	ArticlesWrapper,
 	ArticleComponent,
 } from './components';
 
-function Article() {
+type ArticleProps = ArticleType;
+const Article: React.FC<ArticleProps> = function (props) {
+	const { title, perex } = props;
+
 	return (
 		<ArticlesWrapper>
 			<ArticleComponent>
 				<Image />
 
 				<ImageInfo>
-					<Title>Why Do Cats Have Whiskers?</Title>
+					<Title>{title}</Title>
 
 					<Wrapper>
 						<Author>Elisabeth Strain</Author>
@@ -28,12 +32,7 @@ function Article() {
 						<CreationDate>02/13/17</CreationDate>
 					</Wrapper>
 
-					<Content>
-						A cat's whiskers — or vibrissae — are a well-honed sensory tool that helps a cat see in
-						the dark and steer clear of hungry predators. Whiskers are highly sensitive tactile
-						hairs that grow in patterns on a cat's muzzle, above its eyes and elsewhere on its body,
-						like the ears, jaw and forelegs
-					</Content>
+					<Perex>{perex}</Perex>
 
 					<Wrapper>
 						<ArticleLink>Read whole article</ArticleLink>
@@ -43,6 +42,6 @@ function Article() {
 			</ArticleComponent>
 		</ArticlesWrapper>
 	);
-}
+};
 
 export default Article;
