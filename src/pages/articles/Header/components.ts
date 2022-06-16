@@ -48,4 +48,8 @@ export const SignInIcon = styled(ArrowForwardIcon)`
 	top: -8px;
 	color: #2b7efb;
 	transform: scale(0.5);
+
+	@media only screen and (max-width: 400px) {
+		visibility: hidden;
+	}
 `;

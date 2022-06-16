@@ -13,6 +13,10 @@ function App() {
 export default App;
 
 const Layout = styled.div`
-	width: 80%;
+	width: 70%;
 	margin: 0 auto;
+
+	@media only screen and (max-width: 400px) {
+		width: 85%;
+	}
 `;
