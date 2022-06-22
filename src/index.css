@@ -1,3 +1,7 @@
+:root {
+	--blue: #2b7efb;
+}
+
 * {
 	box-sizing: border-box;
 	margin: 0;

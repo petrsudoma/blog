@@ -1,5 +1,4 @@
 import { ArticlesWrapper, Heading } from './components';
-import Header from './Header';
 import Article from './Article';
 import { useArticles } from '../../hooks/useArticles';
 import { ArticleType } from '../../types';
@@ -16,7 +15,6 @@ function Articles() {
 
 	return (
 		<>
-			<Header />
 			<Heading>Recent Articles</Heading>
 
 			<ArticlesWrapper>

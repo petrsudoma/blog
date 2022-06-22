@@ -1,11 +1,26 @@
+import { useContext, useEffect } from 'react';
 import styled from 'styled-components';
+import { Routes, Route } from 'react-router-dom';
 
-import Articles from './pages/articles';
+import Articles from './pages/Articles';
+import Signin from './pages/Signin';
+import Header from './components/Header';
+import { LoginContext } from './context/login';
 
 function App() {
+	const loginContext = useContext(LoginContext);
+
+	useEffect(() => {
+		loginContext?.signIn();
+	}, [loginContext]);
+
 	return (
 		<Layout>
-			<Articles />
+			<Header />
+			<Routes>
+				<Route path='/' element={<Articles />} />
+				<Route path='/signin' element={<Signin />} />
+			</Routes>
 		</Layout>
 	);
 }
