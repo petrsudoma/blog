@@ -2,6 +2,7 @@ import { ArticlesWrapper, Heading } from './components';
 import Article from './Article';
 import { useArticles } from '../../hooks/useArticles';
 import { ArticleType } from '../../types';
+import LoadingCircle from '../../components/LoadingCircle';
 
 function Articles() {
 	const articles = useArticles();
@@ -15,6 +16,7 @@ function Articles() {
 
 	return (
 		<>
+			{articles.length !== 0 ? null : <LoadingCircle />}
 			<Heading>Recent Articles</Heading>
 
 			<ArticlesWrapper>

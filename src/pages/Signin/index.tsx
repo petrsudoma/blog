@@ -1,10 +1,11 @@
 import { AxiosError } from 'axios';
 import { Formik } from 'formik';
 import { useSnackbar } from 'notistack';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
+import LoadingCircle from '../../components/LoadingCircle';
 import { LoginContext } from '../../context/login';
 import getToken from '../../utils/get-token';
 import {
@@ -25,6 +26,7 @@ const ValidationSchema = Yup.object().shape({
 });
 
 function Signin() {
+	const [loading, setLoading] = useState<boolean>(false);
 	const navigate = useNavigate();
 	const { enqueueSnackbar } = useSnackbar();
 	const loginContext = useContext(LoginContext);
@@ -35,6 +37,7 @@ function Signin() {
 				initialValues={{ username: '', password: '' }}
 				validationSchema={ValidationSchema}
 				onSubmit={async ({ username, password }) => {
+					setLoading(true);
 					try {
 						const res = await getToken(username, password);
 						localStorage.setItem('access_token', res.data.access_token);
@@ -50,6 +53,8 @@ function Signin() {
 						} else {
 							console.error(err);
 						}
+					} finally {
+						setLoading(false);
 					}
 				}}
 			>
@@ -86,6 +91,7 @@ function Signin() {
 					</Form>
 				)}
 			</Formik>
+			{loading ? <LoadingCircle /> : null}
 		</Wrapper>
 	);
 }
