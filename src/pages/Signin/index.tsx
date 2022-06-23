@@ -7,7 +7,17 @@ import * as Yup from 'yup';
 
 import { LoginContext } from '../../context/login';
 import getToken from '../../utils/get-token';
-import { Button, Form, MarginComponent, Heading, Input, Label, Wrapper } from './components';
+import {
+	Button,
+	Form,
+	MarginComponent,
+	Heading,
+	Input,
+	Label,
+	Wrapper,
+	ErrorText,
+	InputComponent,
+} from './components';
 
 const ValidationSchema = Yup.object().shape({
 	username: Yup.string().required('Required'),
@@ -43,27 +53,33 @@ function Signin() {
 					}
 				}}
 			>
-				{({ values, handleChange, handleSubmit }) => (
+				{({ values, errors, touched, handleChange, handleSubmit }) => (
 					<Form onSubmit={handleSubmit}>
 						<MarginComponent>
 							<Heading>Sign in</Heading>
 
-							<Label>Username</Label>
-							<Input
-								name='username'
-								value={values.username}
-								onChange={handleChange}
-								placeholder='me@example.com'
-							/>
+							<InputComponent>
+								<Label>Username</Label>
+								<Input
+									name='username'
+									value={values.username}
+									onChange={handleChange}
+									placeholder='me@example.com'
+								/>
+								{errors.username && touched.username && <ErrorText>{errors.username}</ErrorText>}
+							</InputComponent>
 
-							<Label>Password</Label>
-							<Input
-								name='password'
-								type='password'
-								value={values.password}
-								onChange={handleChange}
-								placeholder='********'
-							/>
+							<InputComponent>
+								<Label>Password</Label>
+								<Input
+									name='password'
+									type='password'
+									value={values.password}
+									onChange={handleChange}
+									placeholder='********'
+								/>
+								{errors.password && touched.password && <ErrorText>{errors.password}</ErrorText>}
+							</InputComponent>
 
 							<Button type='submit'>Sign in</Button>
 						</MarginComponent>

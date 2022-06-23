@@ -26,6 +26,10 @@ export const Heading = styled.h3`
 	font-weight: bold;
 `;
 
+export const InputComponent = styled.div`
+	position: relative;
+`;
+
 export const Label = styled.label`
 	font-size: 0.7em;
 `;
@@ -36,6 +40,7 @@ export const Input = styled.input`
 	font-size: 0.7em;
 	padding-left: 5px;
 	outline: none;
+	margin-bottom: 10px;
 `;
 
 export const Button = styled.button`
@@ -57,4 +62,11 @@ export const Button = styled.button`
 	:active {
 		background-color: #003977;
 	}
+`;
+
+export const ErrorText = styled.p`
+	position: absolute;
+	bottom: -5px;
+	font-size: 0.5em;
+	color: red;
 `;
