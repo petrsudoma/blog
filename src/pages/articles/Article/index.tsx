@@ -19,14 +19,14 @@ import {
 type ArticleProps = ArticleType;
 const Article: React.FC<ArticleProps> = function (props) {
 	const [image, setImage] = useState<any>();
-	const { title, perex, createdAt } = props;
+	const { title, perex, createdAt, imageId } = props;
 
 	useEffect(() => {
 		getImageHandler().then((res) => setImage(URL.createObjectURL(res.data)));
 	}, []);
 
 	async function getImageHandler() {
-		return await getImage();
+		return await getImage(imageId);
 	}
 
 	return (
