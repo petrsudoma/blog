@@ -4,8 +4,11 @@ export const ArticleComponent = styled.div`
 	margin-top: 3%;
 `;
 
-export const Image = styled.div`
-	background-image: url(/cat01.jpeg);
+type ImageProps = {
+	src: string;
+};
+export const Image = styled.div<ImageProps>`
+	background-image: url(${(props) => props.src});
 	width: 200px;
 	height: 200px;
 	background-size: cover;

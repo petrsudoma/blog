@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react';
 import { ArticleType } from '../../../types';
+import getImage from '../../../utils/get-image';
 import {
 	Author,
 	Wrapper,
@@ -16,12 +18,20 @@ import {
 
 type ArticleProps = ArticleType;
 const Article: React.FC<ArticleProps> = function (props) {
-	const { title, perex, createdAt } = props;
+	const [image, setImage] = useState<any>();
+	const { title, perex, createdAt, imageId } = props;
+
+	useEffect(() => {
+		getImageHandler().then((res) => setImage(URL.createObjectURL(res.data)));
+	}, []);
+
+	async function getImageHandler() {
+		return await getImage(imageId);
+	}
 
 	return (
 		<ArticleComponent>
-			<Image />
-
+			<Image src={image} />
 			<ImageInfo>
 				<Title>{title}</Title>
 
