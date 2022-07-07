@@ -1,8 +1,9 @@
-import { ArticlesWrapper, Heading } from './components';
+import { ArticlesWrapper } from './components';
 import Article from './Article';
 import { useArticles } from '../../hooks/useArticles';
 import { ArticleType } from '../../types';
 import LoadingCircle from '../../components/LoadingCircle';
+import PageHeading from '../../components/PageHeading';
 
 function Articles() {
 	const articles = useArticles();
@@ -17,7 +18,7 @@ function Articles() {
 	return (
 		<>
 			{articles.length !== 0 ? null : <LoadingCircle />}
-			<Heading>Recent Articles</Heading>
+			<PageHeading>Recent Articles</PageHeading>
 
 			<ArticlesWrapper>
 				{sortArticles(articles).map((article: ArticleType) => {

@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 
 import LoadingCircle from '../../components/LoadingCircle';
 import { LoginContext } from '../../context/login';
-import getToken from '../../utils/get-token';
+import fetchToken from '../../utils/fetch-token';
 import {
 	Button,
 	Form,
@@ -39,7 +39,7 @@ function Signin() {
 				onSubmit={async ({ username, password }) => {
 					setLoading(true);
 					try {
-						const res = await getToken(username, password);
+						const res = await fetchToken(username, password);
 						localStorage.setItem('access_token', res.data.access_token);
 						localStorage.setItem(
 							'token_expiration',

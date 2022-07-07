@@ -1,6 +1,6 @@
 import Axios from 'axios';
 
-function getToken(username: string, password: string) {
+function fetchToken(username: string, password: string) {
 	return Axios.post(
 		(process.env.REACT_APP_BACKEND_URL as string) + '/login',
 		{
@@ -11,4 +11,4 @@ function getToken(username: string, password: string) {
 	);
 }
 
-export default getToken;
+export default fetchToken;

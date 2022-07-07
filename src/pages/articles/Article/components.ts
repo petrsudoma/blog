@@ -15,6 +15,7 @@ export const Image = styled.div<ImageProps>`
 	background-position: center;
 	margin-right: 20px;
 	float: left;
+	cursor: pointer;
 
 	@media only screen and (max-width: 550px) {
 		width: 150px;
@@ -30,58 +31,30 @@ export const ImageInfo = styled.div`
 `;
 
 export const Title = styled.h2`
+	cursor: pointer;
+
 	@media only screen and (max-width: 550px) {
 		font-size: 0.8em;
 	}
 `;
 
-export const Wrapper = styled.div`
+export const BottomWrapper = styled.div`
 	display: flex;
 	align-items: center;
 	margin: 10px 0;
+
+	@media only screen and (max-width: 700px) {
+		flex-direction: column;
+		align-items: flex-start;
+	}
 
 	@media only screen and (max-width: 550px) {
 		margin: 5px 0;
 	}
 `;
 
-export const BottomWrapper = styled(Wrapper)`
-	@media only screen and (max-width: 700px) {
-		flex-direction: column;
-		align-items: flex-start;
-	}
-`;
-
-export const Author = styled.p`
-	font-size: 0.6em;
-	font-weight: 300;
-	color: #6c757d;
-
-	@media only screen and (max-width: 550px) {
-		font-size: 0.4em;
-	}
-`;
-
-export const Bullet = styled.p`
-	margin: 0 10px;
-	color: #6c757d;
-
-	@media only screen and (max-width: 550px) {
-		margin: 0 5px;
-	}
-`;
-
-export const CreationDate = styled.p`
-	font-size: 0.6em;
-	font-weight: 300;
-	color: #6c757d;
-
-	@media only screen and (max-width: 550px) {
-		font-size: 0.4em;
-	}
-`;
-
 export const Perex = styled.p`
+	cursor: pointer;
 	font-size: 0.7em;
 	font-family: 300;
 
@@ -91,6 +64,7 @@ export const Perex = styled.p`
 `;
 
 export const ArticleLink = styled.a`
+	cursor: pointer;
 	color: #007bff;
 	font-size: 0.7em;
 	margin-right: 20px;
@@ -105,6 +79,7 @@ export const ArticleLink = styled.a`
 `;
 
 export const CommentsText = styled.p`
+	cursor: pointer;
 	color: #6c757d;
 	font-size: 0.7em;
 
