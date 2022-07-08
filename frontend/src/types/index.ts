@@ -5,4 +5,6 @@ export type ArticleType = {
 	imageId: string;
 	createdAt: string;
 	lastUpdatedAt: string;
+	content?: string;
+	comments?: string[];
 };

@@ -1,8 +1,9 @@
 import { useContext, useEffect } from 'react';
 import styled from 'styled-components';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import Articles from './pages/Articles';
+import ArticleDetail from './pages/ArticleDetail';
 import Signin from './pages/Signin';
 import Header from './components/Header';
 import { LoginContext } from './context/login';
@@ -18,7 +19,9 @@ function App() {
 		<Layout>
 			<Header />
 			<Routes>
-				<Route path='/' element={<Articles />} />
+				<Route path='/' element={<Navigate to='/articles' />} />
+				<Route path='/articles' element={<Articles />} />
+				<Route path='/articles/:articleId' element={<ArticleDetail />} />
 				<Route path='/signin' element={<Signin />} />
 			</Routes>
 		</Layout>
