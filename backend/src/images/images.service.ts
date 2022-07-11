@@ -18,6 +18,10 @@ export class ImagesService {
     return await streamToBase64(imageStream);
   }
 
+  uploadImage(image: Express.Multer.File): Promise<string> {
+    return this.repository.uploadImage(image);
+  }
+
   deleteImage(id: string): Promise<string> {
     return this.repository.deleteImage(id);
   }
