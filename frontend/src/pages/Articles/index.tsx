@@ -22,7 +22,7 @@ function Articles() {
 
 			<ArticlesWrapper>
 				{sortArticles(articles).map((article: ArticleType) => {
-					return <Article {...article} key={article.articleId} />;
+					return <Article {...article} key={article.id} />;
 				})}
 			</ArticlesWrapper>
 		</>

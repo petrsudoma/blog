@@ -18,9 +18,9 @@ import {
 
 type ArticleProps = ArticleType;
 const Article: React.FC<ArticleProps> = function (props) {
-	const [image, setImage] = useState<any>();
+	const [image, setImage] = useState<string>('');
 	const { enqueueSnackbar } = useSnackbar();
-	const { title, perex, createdAt, imageId, articleId } = props;
+	const { title, perex, createdAt, imageId, id } = props;
 	const navigate = useNavigate();
 
 	const fetchImageHandler = useCallback(async () => {
@@ -28,7 +28,7 @@ const Article: React.FC<ArticleProps> = function (props) {
 	}, [imageId]);
 
 	function handleArticleClick() {
-		navigate('/articles/' + articleId);
+		navigate('/articles/' + id);
 	}
 
 	useEffect(() => {
@@ -39,7 +39,7 @@ const Article: React.FC<ArticleProps> = function (props) {
 
 	return (
 		<ArticleComponent>
-			<Image src={image} onClick={handleArticleClick} />
+			<Image src={'data:image/png;base64, ' + image} onClick={handleArticleClick} />
 			<ImageInfo>
 				<Title onClick={handleArticleClick}>{title}</Title>
 

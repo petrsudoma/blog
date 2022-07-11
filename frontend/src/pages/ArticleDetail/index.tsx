@@ -11,7 +11,7 @@ import { Image, Layout, Text } from './components';
 
 function ArticleDetail() {
 	const [article, setArticle] = useState<ArticleType>();
-	const [image, setImage] = useState<any>();
+	const [image, setImage] = useState<string>('');
 	const { enqueueSnackbar } = useSnackbar();
 	const params = useParams();
 
@@ -39,7 +39,7 @@ function ArticleDetail() {
 		<Layout>
 			<PageHeading>{article?.title}</PageHeading>
 			<Author date={article?.createdAt as string}>Elisabeth Strain</Author>
-			<Image src={image} />
+			<Image src={'data:image/png;base64, ' + image} />
 
 			<Text>{article?.content as string}</Text>
 		</Layout>
