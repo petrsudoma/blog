@@ -25,14 +25,16 @@ export class ImagesRepository {
   }
 
   async uploadImage(image: Express.Multer.File): Promise<string> {
+    const imageId = uuid();
+
     await s3Client.send(
       new PutObjectCommand({
-        ...createBucketParams(uuid()),
+        ...createBucketParams(imageId),
         Body: image.buffer,
         ContentType: image.mimetype,
       }),
     );
-    return 'OK';
+    return imageId;
   }
 
   async deleteImage(id: string): Promise<string> {
