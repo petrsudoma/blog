@@ -1,5 +1,5 @@
 export type ArticleType = {
-	articleId: string;
+	id: string;
 	title: string;
 	perex: string;
 	imageId: string;
