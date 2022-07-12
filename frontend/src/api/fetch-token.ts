@@ -1,14 +1,10 @@
 import Axios from 'axios';
 
 function fetchToken(username: string, password: string) {
-	return Axios.post(
-		(process.env.REACT_APP_BACKEND_URL as string) + '/login',
-		{
-			username: username,
-			password: password,
-		},
-		{ headers: { 'X-API-KEY': process.env.REACT_APP_API_KEY as string } }
-	);
+	return Axios.post((process.env.REACT_APP_BACKEND_URL as string) + 'auth/signin', {
+		username: username,
+		password: password,
+	});
 }
 
 export default fetchToken;
