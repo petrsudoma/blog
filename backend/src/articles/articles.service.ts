@@ -24,7 +24,7 @@ export class ArticlesService {
   async updateArticle(id: string, body: UpdateArticle): Promise<articles> {
     const article = await this.repository.getArticle(id);
     const newDate = new Date();
-    const newArticle = { ...article, ...body, updatedAt: newDate };
+    const newArticle = { ...article, ...body, updated_at: newDate };
 
     return this.repository.updateArticle(newArticle);
   }
@@ -32,8 +32,8 @@ export class ArticlesService {
   createArticle(data: CreateArticle): Promise<articles> {
     const newArticle: Prisma.articlesCreateInput = {
       ...data,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      created_at: new Date(),
+      updated_at: new Date(),
     };
 
     return this.repository.createArticle(newArticle);
