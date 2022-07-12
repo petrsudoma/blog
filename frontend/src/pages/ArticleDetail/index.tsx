@@ -28,7 +28,7 @@ function ArticleDetail() {
 			.then((res) => {
 				setArticle(res.data);
 
-				fetchImageHandler(res.data.imageId)
+				fetchImageHandler(res.data.image_id)
 					.then((res) => setImage(res))
 					.catch((err) => console.error(err));
 			})
@@ -38,7 +38,7 @@ function ArticleDetail() {
 	return (
 		<Layout>
 			<PageHeading>{article?.title}</PageHeading>
-			<Author date={article?.createdAt as string}>Elisabeth Strain</Author>
+			<Author date={article?.created_at as string}>Elisabeth Strain</Author>
 			<Image src={'data:image/png;base64, ' + image} />
 
 			<Text>{article?.content as string}</Text>
