@@ -21,7 +21,7 @@ import {
 } from './components';
 
 const ValidationSchema = Yup.object().shape({
-	username: Yup.string().required('Required'),
+	username: Yup.string().required('Required').min(5, 'Too short'),
 	password: Yup.string().required('Required'),
 });
 
@@ -36,7 +36,7 @@ function Signin() {
 			<Formik
 				initialValues={{ username: '', password: '' }}
 				validationSchema={ValidationSchema}
-				onSubmit={async ({ username, password }) => {
+				onSubmit={async ({ username, password }, { resetForm }) => {
 					setLoading(true);
 					try {
 						const res = await fetchToken(username, password);
@@ -55,6 +55,7 @@ function Signin() {
 						}
 					} finally {
 						setLoading(false);
+						resetForm();
 					}
 				}}
 			>
