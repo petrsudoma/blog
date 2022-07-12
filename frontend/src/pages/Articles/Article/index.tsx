@@ -20,12 +20,12 @@ type ArticleProps = ArticleType;
 const Article: React.FC<ArticleProps> = function (props) {
 	const [image, setImage] = useState<string>('');
 	const { enqueueSnackbar } = useSnackbar();
-	const { title, perex, createdAt, imageId, id } = props;
+	const { title, perex, created_at, image_id, id } = props;
 	const navigate = useNavigate();
 
 	const fetchImageHandler = useCallback(async () => {
-		return await fetchImage(imageId);
-	}, [imageId]);
+		return await fetchImage(image_id);
+	}, [image_id]);
 
 	function handleArticleClick() {
 		navigate('/articles/' + id);
@@ -43,7 +43,7 @@ const Article: React.FC<ArticleProps> = function (props) {
 			<ImageInfo>
 				<Title onClick={handleArticleClick}>{title}</Title>
 
-				<Author date={createdAt}>Elisabeth Strain</Author>
+				<Author date={created_at}>Elisabeth Strain</Author>
 
 				<Perex onClick={handleArticleClick}>{perex}</Perex>
 

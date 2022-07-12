@@ -15,5 +15,5 @@ export class CreateArticle {
 
   @IsNotEmpty()
   @IsUUID()
-  imageId: string;
+  image_id: string;
 }

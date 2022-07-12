@@ -15,5 +15,5 @@ export class UpdateArticle {
 
   @IsOptional()
   @IsUUID()
-  imageId?: string;
+  image_id?: string;
 }
