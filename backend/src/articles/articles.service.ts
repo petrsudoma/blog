@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { articles, Prisma } from '@prisma/client';
+import { v4 as uuid } from 'uuid';
 import { ArticlesRepository } from './articles.repository';
 import { CreateArticle, UpdateArticle } from './dto';
 
@@ -32,6 +33,7 @@ export class ArticlesService {
   createArticle(data: CreateArticle): Promise<articles> {
     const newArticle: Prisma.articlesCreateInput = {
       ...data,
+      id: uuid(),
       created_at: new Date(),
       updated_at: new Date(),
     };

@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { articles, Prisma } from '@prisma/client';
-import { v4 as uuid } from 'uuid';
 
 import { PrismaService } from 'src/prisma.service';
 
@@ -27,7 +26,7 @@ export class ArticlesRepository {
 
   async createArticle(article: Prisma.articlesCreateInput): Promise<articles> {
     return await this.prisma.articles.create({
-      data: { ...article, id: uuid() },
+      data: article,
     });
   }
 

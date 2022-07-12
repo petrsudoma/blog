@@ -8,11 +8,17 @@ datasource db {
 }
 
 model articles {
-  id         String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id         String   @id @db.Uuid
   title      String   @db.VarChar(50)
   perex      String   @db.VarChar(300)
   content    String   @db.VarChar
   image_id   String   @db.Uuid
   created_at DateTime @db.Timestamp(6)
   updated_at DateTime @db.Timestamp(6)
+}
+
+model users {
+  id       String @id @db.Uuid
+  username String @db.VarChar(30)
+  password String @db.VarChar
 }
