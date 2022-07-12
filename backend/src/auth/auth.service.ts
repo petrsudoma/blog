@@ -7,6 +7,8 @@ import { User } from './dto';
 import { JwtService } from '@nestjs/jwt';
 import { AccessToken } from './types';
 
+const TOKEN_EXPIRATION = 60;
+
 @Injectable({})
 export class AuthService {
   constructor(private prisma: PrismaService, private jwtService: JwtService) {}
@@ -14,10 +16,10 @@ export class AuthService {
   async signToken(id: string, username: string): Promise<AccessToken> {
     const token = await this.jwtService.signAsync(
       { sub: id, username },
-      { secret: process.env.JWT_SECRET, expiresIn: '60m' },
+      { secret: process.env.JWT_SECRET, expiresIn: TOKEN_EXPIRATION },
     );
 
-    return { access_token: token };
+    return { access_token: token, expires_in: TOKEN_EXPIRATION };
   }
 
   async signup(data: User): Promise<AccessToken> {
