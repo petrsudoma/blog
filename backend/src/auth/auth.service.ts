@@ -7,7 +7,7 @@ import { User } from './dto';
 import { JwtService } from '@nestjs/jwt';
 import { AccessToken } from './types';
 
-const TOKEN_EXPIRATION = 60;
+const TOKEN_EXPIRATION = 3600;
 
 @Injectable({})
 export class AuthService {
