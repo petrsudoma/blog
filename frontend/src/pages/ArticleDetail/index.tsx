@@ -3,11 +3,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Author from '../../components/Author';
-import PageHeading from '../../components/PageHeading';
 import { ArticleType } from '../../types';
 import fetchArticle from '../../api/fetch-article';
 import fetchImage from '../../api/fetch-image';
-import { Image, Layout, Text } from './components';
+import { Image, Layout, Text, TouchedPageHeading } from './components';
+import Comments from './Comments';
 
 function ArticleDetail() {
 	const [article, setArticle] = useState<ArticleType>();
@@ -37,11 +37,13 @@ function ArticleDetail() {
 
 	return (
 		<Layout>
-			<PageHeading>{article?.title}</PageHeading>
+			<TouchedPageHeading>{article?.title}</TouchedPageHeading>
 			<Author date={article?.created_at as string}>Elisabeth Strain</Author>
 			<Image src={'data:image/png;base64, ' + image} />
 
 			<Text>{article?.content as string}</Text>
+
+			<Comments />
 		</Layout>
 	);
 }

@@ -1,5 +1,6 @@
 import ReactMarkdown from 'react-markdown';
 import styled from 'styled-components';
+import PageHeading from '../../components/PageHeading';
 
 export const Layout = styled.div`
 	display: flex;
@@ -7,6 +8,12 @@ export const Layout = styled.div`
 
 	@media only screen and (max-width: 600px) {
 		align-items: center;
+	}
+`;
+
+export const TouchedPageHeading = styled(PageHeading)`
+	@media only screen and (max-width: 600px) {
+		font-size: 5vw;
 	}
 `;
 
@@ -25,7 +32,7 @@ export const Image = styled.div<ImageProps>`
 `;
 
 export const Text = styled(ReactMarkdown)`
-	margin-top: 2%;
+	margin-top: max(30px, 3%);
 	width: 100%;
 	max-width: 700px;
 	* {
