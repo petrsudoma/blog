@@ -14,6 +14,7 @@ export class ArticlesRepository {
   async getArticle(id: string): Promise<articles> {
     return await this.prisma.articles.findUnique({
       where: { id: id },
+      include: { comments: true },
     });
   }
 
