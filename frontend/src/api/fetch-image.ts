@@ -5,4 +5,4 @@ async function fetchImage(imageId: string) {
 	return res.data;
 }
 
-export default fetchImage;
+export { fetchImage };

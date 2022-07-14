@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 
 import LoadingCircle from '../../components/LoadingCircle';
 import { LoginContext } from '../../context/login';
-import fetchToken from '../../api/fetch-token';
+import { fetchToken } from '../../api/fetch-token';
 import {
 	Button,
 	Form,

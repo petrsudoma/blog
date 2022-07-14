@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Author from '../../../components/Author';
 import { ArticleType } from '../../../types';
-import fetchImage from '../../../api/fetch-image';
+import { fetchImage } from '../../../api/fetch-image';
 import {
 	Image,
 	ImageInfo,

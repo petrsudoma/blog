@@ -4,8 +4,8 @@ import { useParams } from 'react-router-dom';
 
 import Author from '../../components/Author';
 import { ArticleType } from '../../types';
-import fetchArticle from '../../api/fetch-article';
-import fetchImage from '../../api/fetch-image';
+import { fetchArticle } from '../../api/fetch-article';
+import { fetchImage } from '../../api/fetch-image';
 import { Image, Layout, Text, TouchedPageHeading } from './components';
 import Comments from './Comments';
 
@@ -43,7 +43,7 @@ function ArticleDetail() {
 
 			<Text>{article?.content as string}</Text>
 
-			<Comments />
+			<Comments comments={article?.comments} />
 		</Layout>
 	);
 }
