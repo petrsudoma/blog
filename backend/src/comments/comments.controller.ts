@@ -1,21 +1,24 @@
-import { Controller, Param, Put } from '@nestjs/common';
+import { Body, Controller, Headers, Post, UseGuards } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+
+import { JwtGuard } from 'src/auth/guard/jwt.guard';
 import { CommentsService } from './comments.service';
-
-type CommentType = {
-  id: string;
-};
-
+import { CreateComment } from './dto/create-comment.dto';
 @Controller('comments')
 export class CommentsController {
-  constructor(private service: CommentsService) {}
+  constructor(
+    private commentsService: CommentsService,
+    private jwtService: JwtService,
+  ) {}
 
-  @Put('upvote/:id')
-  upvoteComment(@Param() params: CommentType) {
-    return this.service.upvoteComment(params.id);
-  }
+  @Post()
+  @UseGuards(JwtGuard)
+  createComment(@Body() body: CreateComment, @Headers() headers) {
+    const decodedToken = this.jwtService.decode(
+      headers.authorization.split(' ')[1],
+    );
+    const data = { ...body, user_id: decodedToken.sub };
 
-  @Put('downvote/:id')
-  downvoteComment(@Param() params: CommentType) {
-    return this.service.downvoteComment(params.id);
+    return this.commentsService.createComment(data);
   }
 }

@@ -1,15 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { v4 as uuid } from 'uuid';
+
 import { CommentsRepository } from './comments.repository';
+import { CreateComment } from './dto/create-comment.dto';
 
 @Injectable()
 export class CommentsService {
   constructor(private repository: CommentsRepository) {}
 
-  upvoteComment(id: string) {
-    return this.repository.upvoteComment(id);
-  }
-
-  downvoteComment(id: string) {
-    return this.repository.downvoteComment(id);
+  createComment(data: CreateComment) {
+    return this.repository.createComment({ ...data, id: uuid() });
   }
 }
