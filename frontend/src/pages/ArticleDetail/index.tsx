@@ -4,8 +4,8 @@ import { useParams } from 'react-router-dom';
 
 import Author from '../../components/Author';
 import { ArticleType } from '../../types';
-import { fetchArticle } from '../../api/fetch-article';
-import { fetchImage } from '../../api/fetch-image';
+import { fetchArticle } from '../../api';
+import { fetchImage } from '../../api';
 import { Image, Layout, Text, TouchedPageHeading } from './components';
 import Comments from './Comments';
 import { sortByDate } from '../../utils/sortByDate';
