@@ -2,6 +2,10 @@ import Axios from 'axios';
 
 import { VoteVariant } from '../types';
 
+function fetchVotes(commentId: string) {
+	return Axios.get((process.env.REACT_APP_BACKEND_URL as string) + 'votes/' + commentId);
+}
+
 function postVote(commentId: string, type: VoteVariant) {
 	const token = localStorage.getItem('access_token');
 
@@ -15,4 +19,4 @@ function postVote(commentId: string, type: VoteVariant) {
 	});
 }
 
-export { postVote };
+export { postVote, fetchVotes };

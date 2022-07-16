@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { postComment } from '../../../api/post-comment';
+import { postComment } from '../../../api';
 
 import { CommentType } from '../../../types';
 import Comment from './Comment';

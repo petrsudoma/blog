@@ -9,9 +9,11 @@ import {
   ParseFilePipe,
   Post,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { JwtGuard } from 'src/endpoints/auth/guard/jwt.guard';
 import { ImagesService } from './images.service';
 
 type ImageId = {
@@ -31,6 +33,7 @@ export class ImagesController {
   @Post()
   @Header('Content-Type', 'text/plain')
   @UseInterceptors(FileInterceptor('image'))
+  @UseGuards(JwtGuard)
   uploadImage(
     @UploadedFile(
       new ParseFilePipe({
@@ -47,6 +50,7 @@ export class ImagesController {
 
   @Delete(':id')
   @Header('Content-Type', 'text/plain')
+  @UseGuards(JwtGuard)
   deleteImage(@Param() params: ImageId): Promise<string> {
     return this.service.deleteImage(params.id);
   }

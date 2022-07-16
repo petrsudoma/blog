@@ -1,7 +1,7 @@
 import { Body, Controller, Headers, Post, UseGuards } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { JwtGuard } from 'src/auth/guard/jwt.guard';
+import { JwtGuard } from 'src/endpoints/auth/guard/jwt.guard';
 import { CommentsService } from './comments.service';
 import { CreateComment } from './dto/create-comment.dto';
 @Controller('comments')

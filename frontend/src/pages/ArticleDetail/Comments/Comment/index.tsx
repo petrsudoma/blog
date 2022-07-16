@@ -15,9 +15,9 @@ import {
 	Downvote,
 } from './components';
 import { Avatar } from '../components';
-import { fetchUser } from '../../../../api/fetch-user';
-import { postVote } from '../../../../api/post-vote';
-import { fetchVotes } from '../../../../api/fetch-votes';
+import { fetchUser } from '../../../../api';
+import { postVote } from '../../../../api';
+import { fetchVotes } from '../../../../api';
 import { VoteType } from '../../../../types';
 
 TimeAgo.addDefaultLocale(en);
