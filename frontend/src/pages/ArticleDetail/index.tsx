@@ -3,11 +3,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Author from '../../components/Author';
-import PageHeading from '../../components/PageHeading';
 import { ArticleType } from '../../types';
-import fetchArticle from '../../api/fetch-article';
-import fetchImage from '../../api/fetch-image';
-import { Image, Layout, Text } from './components';
+import { fetchArticle } from '../../api/fetch-article';
+import { fetchImage } from '../../api/fetch-image';
+import { Image, Layout, Text, TouchedPageHeading } from './components';
+import Comments from './Comments';
+import { sortByDate } from '../../utils/sortByDate';
 
 function ArticleDetail() {
 	const [article, setArticle] = useState<ArticleType>();
@@ -26,7 +27,8 @@ function ArticleDetail() {
 	useEffect(() => {
 		fetchArticleHandler()
 			.then((res) => {
-				setArticle(res.data);
+				const sortedComments = sortByDate(res.data.comments);
+				setArticle({ ...res.data, comments: sortedComments });
 
 				fetchImageHandler(res.data.image_id)
 					.then((res) => setImage(res))
@@ -37,11 +39,13 @@ function ArticleDetail() {
 
 	return (
 		<Layout>
-			<PageHeading>{article?.title}</PageHeading>
+			<TouchedPageHeading>{article?.title}</TouchedPageHeading>
 			<Author date={article?.created_at as string}>Elisabeth Strain</Author>
 			<Image src={'data:image/png;base64, ' + image} />
 
 			<Text>{article?.content as string}</Text>
+
+			<Comments comments={article?.comments} articleId={article?.id} />
 		</Layout>
 	);
 }

@@ -7,4 +7,4 @@ function fetchToken(username: string, password: string) {
 	});
 }
 
-export default fetchToken;
+export { fetchToken };
