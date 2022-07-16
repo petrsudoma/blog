@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { JwtGuard } from 'src/auth/guard/jwt.guard';
+import { JwtGuard } from 'src/endpoints/auth/guard/jwt.guard';
 import { CreateVote } from './dto';
 import { VotesService } from './votes.service';
 

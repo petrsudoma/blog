@@ -19,11 +19,11 @@ export class ArticlesService {
   }
 
   getArticle(id: string): Promise<articles> {
-    return this.repository.getArticle(id);
+    return this.repository.getArticle(id, true);
   }
 
   async updateArticle(id: string, body: UpdateArticle): Promise<articles> {
-    const article = await this.repository.getArticle(id);
+    const article = await this.repository.getArticle(id, false);
     const newDate = new Date();
     const newArticle = { ...article, ...body, updated_at: newDate };
 
@@ -41,7 +41,7 @@ export class ArticlesService {
     return this.repository.createArticle(newArticle);
   }
 
-  deleteArticle(id: string) {
+  deleteArticle(id: string): Promise<articles> {
     return this.repository.deleteArticle(id);
   }
 }
