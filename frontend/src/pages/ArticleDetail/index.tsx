@@ -8,6 +8,7 @@ import { fetchArticle } from '../../api/fetch-article';
 import { fetchImage } from '../../api/fetch-image';
 import { Image, Layout, Text, TouchedPageHeading } from './components';
 import Comments from './Comments';
+import { sortByDate } from '../../utils/sortByDate';
 
 function ArticleDetail() {
 	const [article, setArticle] = useState<ArticleType>();
@@ -26,7 +27,8 @@ function ArticleDetail() {
 	useEffect(() => {
 		fetchArticleHandler()
 			.then((res) => {
-				setArticle(res.data);
+				const sortedComments = sortByDate(res.data.comments);
+				setArticle({ ...res.data, comments: sortedComments });
 
 				fetchImageHandler(res.data.image_id)
 					.then((res) => setImage(res))
@@ -43,7 +45,7 @@ function ArticleDetail() {
 
 			<Text>{article?.content as string}</Text>
 
-			<Comments comments={article?.comments} />
+			<Comments comments={article?.comments} articleId={article?.id} />
 		</Layout>
 	);
 }

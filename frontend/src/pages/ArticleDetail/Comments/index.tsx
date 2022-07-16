@@ -1,21 +1,43 @@
+import { useState } from 'react';
+import { postComment } from '../../../api/post-comment';
+
 import { CommentType } from '../../../types';
 import Comment from './Comment';
 import { AddCommentWrapper, Avatar, BreakLine, Heading, Input } from './components';
 
 type CommentsProps = {
 	comments?: CommentType[];
+	articleId?: string;
 };
 const Comments: React.FC<CommentsProps> = function (props) {
-	const { comments } = props;
+	const [newCommentContent, setNewCommentContent] = useState<string>('');
+
+	const { comments, articleId } = props;
+
+	async function createComment(e: any) {
+		if (!newCommentContent) {
+			e.preventDefault();
+			return;
+		}
+		const newComment = {
+			content: newCommentContent,
+			article_id: articleId,
+		};
+
+		postComment(newComment);
+	}
 
 	return (
 		<>
 			<BreakLine />
 			<Heading>Comments</Heading>
 
-			<AddCommentWrapper>
+			<AddCommentWrapper onSubmit={createComment}>
 				<Avatar />
-				<Input placeholder='Join the discussion' />
+				<Input
+					placeholder='Join the discussion'
+					onChange={(event) => setNewCommentContent(event.target.value)}
+				/>
 			</AddCommentWrapper>
 
 			{comments?.map((comment: CommentType) => (
@@ -24,7 +46,6 @@ const Comments: React.FC<CommentsProps> = function (props) {
 					commentId={comment.id}
 					userId={comment.user_id}
 					content={comment.content}
-					likes={comment.likes}
 					created_at={comment.created_at}
 				/>
 			))}

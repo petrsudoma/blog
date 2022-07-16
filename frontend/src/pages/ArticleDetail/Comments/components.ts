@@ -11,7 +11,7 @@ export const BreakLine = styled.div`
 
 export const Heading = styled.h3``;
 
-export const AddCommentWrapper = styled.div`
+export const AddCommentWrapper = styled.form`
 	width: 100%;
 	max-width: 700px;
 	height: 50px;

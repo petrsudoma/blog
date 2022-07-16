@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSnackbar } from 'notistack';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 
@@ -15,7 +16,9 @@ import {
 } from './components';
 import { Avatar } from '../components';
 import { fetchUser } from '../../../../api/fetch-user';
-import { downvoteComment, upvoteComment } from '../../../../api/update-comment';
+import { postVote } from '../../../../api/post-vote';
+import { fetchVotes } from '../../../../api/fetch-votes';
+import { VoteType } from '../../../../types';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -23,42 +26,73 @@ type CommentProps = {
 	commentId: string;
 	userId: string;
 	content: string;
-	likes: number;
 	created_at: string;
 };
 const Comment: React.FC<CommentProps> = function (props) {
 	const [username, setUsername] = useState<string>('');
 	const [likeCounter, setLikeCounter] = useState<number>(0);
-	const { commentId, userId, content, likes, created_at } = props;
+	const { commentId, userId, content, created_at } = props;
+	const { enqueueSnackbar } = useSnackbar();
 
-	function formattedLikes(likes: number) {
-		if (likes > 0) {
-			return '+' + likes;
+	function formatVotes(votes: number) {
+		if (votes > 0) {
+			return '+' + votes;
 		}
-		return likes;
+		return votes;
+	}
+
+	function processVotes(votes: VoteType[]) {
+		const likes = votes.filter((vote: VoteType) => vote.type === 'like');
+		const dislikes = votes.filter((vote: VoteType) => vote.type === 'dislike');
+
+		setLikeCounter(likes.length - dislikes.length);
 	}
 
 	function upvoteCommentHandler() {
-		upvoteComment(commentId);
-		setLikeCounter((prevState) => ++prevState);
+		postVote(commentId, 'like')
+			.then(() => {
+				if (likeCounter === -1) setLikeCounter((prevState) => (prevState += 2));
+				else setLikeCounter((prevState) => (prevState += 1));
+			})
+			.catch((err) => {
+				if (err.response.status === 401) {
+					enqueueSnackbar('Sign in to vote', { variant: 'warning' });
+				}
+			});
 	}
 
 	function downvoteCommentHandler() {
-		downvoteComment(commentId);
-		setLikeCounter((prevState) => --prevState);
+		postVote(commentId, 'dislike')
+			.then(() => {
+				if (likeCounter === 1) setLikeCounter((prevState) => (prevState -= 2));
+				else setLikeCounter((prevState) => (prevState -= 1));
+			})
+			.catch((err) => {
+				if (err.response.status === 401) {
+					enqueueSnackbar('Sign in to vote', { variant: 'warning' });
+				}
+			});
 	}
 
 	useEffect(() => {
-		async function getUsername() {
-			return await fetchUser(userId);
+		function getUsername() {
+			return fetchUser(userId);
 		}
 
-		setLikeCounter(likes);
+		function getVotes() {
+			return fetchVotes(commentId);
+		}
+
+		setLikeCounter(0);
 
 		getUsername()
 			.then((res) => setUsername(res.data.username))
 			.catch((err) => console.error(err));
-	}, [userId, likes]);
+
+		getVotes()
+			.then((res) => processVotes(res.data))
+			.catch((err) => console.error(err));
+	}, [userId, commentId]);
 
 	return (
 		<Wrapper>
@@ -72,7 +106,7 @@ const Comment: React.FC<CommentProps> = function (props) {
 
 				<Content>{content}</Content>
 
-				<LikeDisplay>{formattedLikes(likeCounter)}</LikeDisplay>
+				<LikeDisplay>{formatVotes(likeCounter)}</LikeDisplay>
 				<Upvote onClick={upvoteCommentHandler} />
 				<Downvote onClick={downvoteCommentHandler} />
 			</ContentFlexbox>

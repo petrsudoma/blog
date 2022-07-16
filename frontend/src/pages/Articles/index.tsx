@@ -4,16 +4,10 @@ import { useArticles } from '../../hooks/useArticles';
 import { ArticleType } from '../../types';
 import LoadingCircle from '../../components/LoadingCircle';
 import PageHeading from '../../components/PageHeading';
+import { sortByDate } from '../../utils/sortByDate';
 
 function Articles() {
 	const articles = useArticles();
-
-	function sortArticles(articles: ArticleType[]) {
-		return articles.sort((a, b) => {
-			if (new Date(a.created_at) > new Date(b.created_at)) return 1;
-			else return -1;
-		});
-	}
 
 	return (
 		<>
@@ -21,7 +15,7 @@ function Articles() {
 			<PageHeading>Recent Articles</PageHeading>
 
 			<ArticlesWrapper>
-				{sortArticles(articles).map((article: ArticleType) => {
+				{sortByDate(articles).map((article: ArticleType) => {
 					return <Article {...article} key={article.id} />;
 				})}
 			</ArticlesWrapper>

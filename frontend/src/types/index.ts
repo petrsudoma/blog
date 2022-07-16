@@ -14,6 +14,14 @@ export type CommentType = {
 	user_id: string;
 	article_id: string;
 	content: string;
-	likes: number;
 	created_at: string;
+};
+
+export type VoteVariant = 'like' | 'dislike';
+
+export type VoteType = {
+	id: string;
+	comment_id: string;
+	user_id: string;
+	type: VoteVariant;
 };
