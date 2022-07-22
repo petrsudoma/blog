@@ -1,0 +1,33 @@
+.markdown h1 {
+	font-size: 23px;
+	font-weight: bold;
+	line-height: 1.5em;
+}
+
+.markdown h2 {
+	font-size: 18px;
+	font-weight: bold;
+	line-height: 1.5em;
+}
+
+.markdown h3 {
+	font-size: 15px;
+	font-weight: bold;
+	line-height: 1.5em;
+}
+
+.markdown p {
+	font-size: 15px;
+	line-height: 1.3em;
+}
+
+.markdown strong {
+	font-size: 15px;
+	font-weight: bold;
+	line-height: 1.3em;
+}
+
+.markdown em {
+	font-size: 15px;
+	line-height: 1.3em;
+}

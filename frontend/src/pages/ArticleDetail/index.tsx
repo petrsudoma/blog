@@ -9,6 +9,7 @@ import { fetchImage } from '../../api';
 import { Image, Layout, Text, TouchedPageHeading } from './components';
 import Comments from './Comments';
 import { sortByDate } from '../../utils/sortByDate';
+import './markdown.css';
 
 function ArticleDetail() {
 	const [article, setArticle] = useState<ArticleType>();
@@ -37,13 +38,15 @@ function ArticleDetail() {
 			.catch(() => enqueueSnackbar('Error. Try again', { variant: 'error' }));
 	}, [fetchArticleHandler, enqueueSnackbar, fetchImageHandler]);
 
+	const test = article?.content || '';
+
 	return (
 		<Layout>
 			<TouchedPageHeading>{article?.title}</TouchedPageHeading>
 			<Author date={article?.created_at as string}>Elisabeth Strain</Author>
 			<Image src={'data:image/png;base64, ' + image} />
 
-			<Text>{article?.content as string}</Text>
+			<Text className='markdown' children={test} />
 
 			<Comments comments={article?.comments} articleId={article?.id} />
 		</Layout>

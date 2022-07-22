@@ -5,4 +5,11 @@ async function fetchImage(imageId: string) {
 	return res.data;
 }
 
-export { fetchImage };
+function postImage(data: FormData) {
+	const token = localStorage.getItem('access_token');
+	return Axios.post((process.env.REACT_APP_BACKEND_URL as string) + 'images', data, {
+		headers: { Authorization: 'Bearer ' + token },
+	});
+}
+
+export { fetchImage, postImage };
