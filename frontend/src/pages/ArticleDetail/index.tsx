@@ -4,14 +4,16 @@ import { useParams } from 'react-router-dom';
 
 import Author from '../../components/Author';
 import { ArticleType } from '../../types';
-import { fetchArticle } from '../../api';
+import { fetchArticle, fetchUser } from '../../api';
 import { fetchImage } from '../../api';
 import { Image, Layout, Text, TouchedPageHeading } from './components';
 import Comments from './Comments';
 import { sortByDate } from '../../utils/sortByDate';
+import './markdown.css';
 
 function ArticleDetail() {
 	const [article, setArticle] = useState<ArticleType>();
+	const [author, setAuthor] = useState<string>('');
 	const [image, setImage] = useState<string>('');
 	const { enqueueSnackbar } = useSnackbar();
 	const params = useParams();
@@ -30,6 +32,8 @@ function ArticleDetail() {
 				const sortedComments = sortByDate(res.data.comments);
 				setArticle({ ...res.data, comments: sortedComments });
 
+				fetchUser(res.data.user_id).then((res) => setAuthor(res.data.username));
+
 				fetchImageHandler(res.data.image_id)
 					.then((res) => setImage(res))
 					.catch((err) => console.error(err));
@@ -40,10 +44,10 @@ function ArticleDetail() {
 	return (
 		<Layout>
 			<TouchedPageHeading>{article?.title}</TouchedPageHeading>
-			<Author date={article?.created_at as string}>Elisabeth Strain</Author>
+			<Author date={article?.created_at as string}>{author}</Author>
 			<Image src={'data:image/png;base64, ' + image} />
 
-			<Text>{article?.content as string}</Text>
+			<Text className='markdown' children={article?.content || ''} />
 
 			<Comments comments={article?.comments} articleId={article?.id} />
 		</Layout>

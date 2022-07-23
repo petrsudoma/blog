@@ -15,6 +15,8 @@ model articles {
   image_id   String     @db.Uuid
   created_at DateTime   @db.Timestamp(6)
   updated_at DateTime   @db.Timestamp(6)
+  user_id    String?    @db.Uuid
+  users      users?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   comments   comments[]
 }
 
@@ -22,6 +24,7 @@ model users {
   id       String     @id @db.Uuid
   username String     @unique(map: "username_unique") @db.VarChar(30)
   password String     @db.VarChar
+  articles articles[]
   comments comments[]
   votes    votes[]
 }

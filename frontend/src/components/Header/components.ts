@@ -13,11 +13,7 @@ export const HeaderComponent = styled.div`
 	position: absolute;
 	left: 0;
 	top: 0;
-	padding-left: 15%;
-
-	@media only screen and (max-width: 400px) {
-		padding-left: 5%;
-	}
+	padding-left: 5%;
 `;
 
 export const LeftLinks = styled.div`
@@ -73,7 +69,7 @@ export const LogoutButton = styled.button`
 export const SignInLink = styled(NavLink)`
 	font-size: 0.7em;
 	position: absolute;
-	right: 15%;
+	right: 10%;
 	color: var(--blue);
 	cursor: pointer;
 	text-decoration: none;

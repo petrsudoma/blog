@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { LoginContext } from '../../context/login';
 import DrawerMenu from '../DrawerMenu';
@@ -16,10 +17,18 @@ import {
 
 function Header() {
 	const [drawer, setDrawer] = useState<boolean>(false);
+	const navigate = useNavigate();
 	const loginContext = useContext(LoginContext);
 
 	function handleDrawer() {
 		setDrawer((prevState) => !prevState);
+	}
+
+	function logout() {
+		navigate('/');
+		if (loginContext) {
+			loginContext.logout();
+		}
 	}
 
 	return (
@@ -39,10 +48,10 @@ function Header() {
 						<Link id='right-link' to='/'>
 							My Articles
 						</Link>
-						<Link id='right-link' to='/'>
+						<Link id='right-link' to='/articles/create'>
 							Create Article
 						</Link>
-						<LogoutButton id='right-link' onClick={loginContext.logout}>
+						<LogoutButton id='right-link' onClick={logout}>
 							Logout
 						</LogoutButton>
 						<BurgerMenu onClick={handleDrawer} />

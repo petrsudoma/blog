@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
 export const AuthorComponent = styled.p`
 	font-size: 0.6em;
 	font-weight: 300;
-	color: #6c757d;
+	color: var(--grey);
 
 	@media only screen and (max-width: 550px) {
 		font-size: 0.4em;
@@ -22,7 +22,7 @@ export const AuthorComponent = styled.p`
 
 export const Bullet = styled.p`
 	margin: 0 10px;
-	color: #6c757d;
+	color: var(--grey);
 
 	@media only screen and (max-width: 550px) {
 		margin: 0 5px;
@@ -32,7 +32,7 @@ export const Bullet = styled.p`
 export const CreationDate = styled.p`
 	font-size: 0.6em;
 	font-weight: 300;
-	color: #6c757d;
+	color: var(--grey);
 
 	@media only screen and (max-width: 550px) {
 		font-size: 0.4em;

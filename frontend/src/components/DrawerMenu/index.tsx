@@ -1,4 +1,5 @@
 import { Drawer } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 import { LogoutButton } from '../Header/components';
 import {
@@ -15,19 +16,32 @@ type DrawerMenuProps = {
 	logout: () => void;
 };
 const DrawerMenu: React.FC<DrawerMenuProps> = function (props) {
+	const navigate = useNavigate();
+	const { handleDrawer } = props;
+
+	function logout() {
+		props.logout();
+		handleDrawer();
+		navigate('/');
+	}
+
 	return (
-		<Drawer open={props.active} anchor={'right'} onClose={props.handleDrawer}>
+		<Drawer open={props.active} anchor={'right'} onClose={handleDrawer}>
 			<DrawerMenuComponent>
-				<CloseButton onClick={props.handleDrawer} />
+				<CloseButton onClick={handleDrawer} />
 				<DrawerList>
 					<DrawerListItem>
-						<DrawerLink to='/'>My Articles</DrawerLink>
+						<DrawerLink onClick={handleDrawer} to='/'>
+							My Articles
+						</DrawerLink>
 					</DrawerListItem>
 					<DrawerListItem>
-						<DrawerLink to='/'>Create Article</DrawerLink>
+						<DrawerLink onClick={handleDrawer} to='/articles/create'>
+							Create Article
+						</DrawerLink>
 					</DrawerListItem>
 					<DrawerListItem>
-						<LogoutButton onClick={props.logout}>Logout</LogoutButton>
+						<LogoutButton onClick={logout}>Logout</LogoutButton>
 					</DrawerListItem>
 				</DrawerList>
 			</DrawerMenuComponent>

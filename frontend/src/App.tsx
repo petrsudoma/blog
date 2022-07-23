@@ -7,6 +7,7 @@ import ArticleDetail from './pages/ArticleDetail';
 import Signin from './pages/Signin';
 import Header from './components/Header';
 import { LoginContext } from './context/login';
+import ArticleCreate from './pages/ArticleCreate';
 
 function App() {
 	const loginContext = useContext(LoginContext);
@@ -21,6 +22,10 @@ function App() {
 			<Routes>
 				<Route path='/' element={<Navigate to='/articles' />} />
 				<Route path='/articles' element={<Articles />} />
+				<Route
+					path='/articles/create'
+					element={loginContext?.signedIn ? <ArticleCreate /> : <Navigate to='/' />}
+				/>
 				<Route path='/articles/:articleId' element={<ArticleDetail />} />
 				<Route path='/signin' element={<Signin />} />
 			</Routes>

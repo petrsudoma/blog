@@ -35,9 +35,5 @@ export const Text = styled(ReactMarkdown)`
 	margin-top: max(30px, 3%);
 	width: 100%;
 	max-width: 700px;
-	* {
-		font-size: 15px;
-		word-spacing: 1px;
-		line-height: 1.5em;
-	}
+	white-space: pre;
 `;
