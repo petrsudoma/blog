@@ -124,7 +124,7 @@ function ArticleCreate() {
 							name='perex'
 							value={values.perex}
 							onChange={handleChange}
-							placeholder='Supports Markdown :)'
+							placeholder='Write here'
 						/>
 						{touched.perex && errors.perex && <ErrorText>{errors.perex}</ErrorText>}
 					</FormComponent>

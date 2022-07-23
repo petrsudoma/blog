@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useSnackbar } from 'notistack';
+import { useContext, useState } from 'react';
 import { postComment } from '../../../api';
+import { LoginContext } from '../../../context/login';
 
 import { CommentType } from '../../../types';
 import Comment from './Comment';
@@ -11,6 +13,8 @@ type CommentsProps = {
 };
 const Comments: React.FC<CommentsProps> = function (props) {
 	const [newCommentContent, setNewCommentContent] = useState<string>('');
+	const { enqueueSnackbar } = useSnackbar();
+	const loginContext = useContext(LoginContext);
 
 	const { comments, articleId } = props;
 
@@ -24,7 +28,10 @@ const Comments: React.FC<CommentsProps> = function (props) {
 			article_id: articleId,
 		};
 
-		postComment(newComment);
+		if (loginContext?.signedIn) return postComment(newComment);
+
+		enqueueSnackbar('Sign in to comment', { variant: 'warning' });
+		e.preventDefault();
 	}
 
 	return (

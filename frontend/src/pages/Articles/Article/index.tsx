@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Author from '../../../components/Author';
 import { ArticleType } from '../../../types';
-import { fetchImage } from '../../../api';
+import { fetchImage, fetchUser } from '../../../api';
 import {
 	Image,
 	ImageInfo,
@@ -19,8 +19,9 @@ import {
 type ArticleProps = ArticleType;
 const Article: React.FC<ArticleProps> = function (props) {
 	const [image, setImage] = useState<string>('');
+	const [author, setAuthor] = useState<string>('');
 	const { enqueueSnackbar } = useSnackbar();
-	const { title, perex, created_at, image_id, id } = props;
+	const { title, perex, created_at, image_id, id, user_id } = props;
 	const navigate = useNavigate();
 
 	const fetchImageHandler = useCallback(async () => {
@@ -32,10 +33,9 @@ const Article: React.FC<ArticleProps> = function (props) {
 	}
 
 	useEffect(() => {
-		fetchImageHandler()
-			.then((res) => setImage(res))
-			.catch(() => enqueueSnackbar('Error. Try again', { variant: 'error' }));
-	}, [fetchImageHandler, enqueueSnackbar]);
+		fetchUser(user_id).then((res) => setAuthor(res.data.username));
+		fetchImageHandler().then((res) => setImage(res));
+	}, [fetchImageHandler, enqueueSnackbar, user_id]);
 
 	return (
 		<ArticleComponent>
@@ -43,7 +43,7 @@ const Article: React.FC<ArticleProps> = function (props) {
 			<ImageInfo>
 				<Title onClick={handleArticleClick}>{title}</Title>
 
-				<Author date={created_at}>Elisabeth Strain</Author>
+				<Author date={created_at}>{author}</Author>
 
 				<Perex onClick={handleArticleClick}>{perex}</Perex>
 

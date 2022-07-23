@@ -6,6 +6,7 @@ export type ArticleType = {
 	created_at: string;
 	updated_at: string;
 	content?: string;
+	user_id: string;
 	comments?: CommentType[];
 };
 
