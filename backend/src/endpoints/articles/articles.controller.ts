@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Headers,
   Param,
   Patch,
   Post,
@@ -13,6 +14,7 @@ import { articles } from '@prisma/client';
 import { CreateArticle, UpdateArticle } from './dto';
 import { ArticlesService } from './articles.service';
 import { JwtGuard } from 'src/endpoints/auth/guard/jwt.guard';
+import { JwtService } from '@nestjs/jwt';
 
 type ArticleId = {
   id: string;
@@ -20,7 +22,10 @@ type ArticleId = {
 
 @Controller('articles')
 export class ArticlesController {
-  constructor(private service: ArticlesService) {}
+  constructor(
+    private service: ArticlesService,
+    private jwtService: JwtService,
+  ) {}
 
   @Get()
   getArticles(): Promise<articles[]> {
@@ -43,8 +48,15 @@ export class ArticlesController {
 
   @Post()
   @UseGuards(JwtGuard)
-  createArticle(@Body() body: CreateArticle): Promise<articles> {
-    return this.service.createArticle(body);
+  createArticle(
+    @Body() body: CreateArticle,
+    @Headers() headers,
+  ): Promise<articles> {
+    const decodedToken = this.jwtService.decode(
+      headers.authorization.split(' ')[1],
+    );
+
+    return this.service.createArticle(body, decodedToken.sub);
   }
 
   @Delete(':id')

@@ -28,9 +28,12 @@ export class ArticlesRepository {
     });
   }
 
-  createArticle(article: Prisma.articlesCreateInput): Promise<articles> {
+  createArticle(
+    article: Prisma.articlesCreateInput,
+    userId: string,
+  ): Promise<articles> {
     return this.prisma.articles.create({
-      data: article,
+      data: { ...article, users: { connect: { id: userId } } },
     });
   }
 
