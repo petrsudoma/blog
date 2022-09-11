@@ -3,7 +3,7 @@ import Axios from 'axios';
 import { VoteVariant } from '../types';
 
 function fetchVotes(commentId: string) {
-	return Axios.get((process.env.REACT_APP_BACKEND_URL as string) + 'votes/' + commentId);
+	return Axios.get((process.env.REACT_APP_BACKEND_URL as string) + '/votes/' + commentId);
 }
 
 function postVote(commentId: string, type: VoteVariant) {
@@ -13,7 +13,7 @@ function postVote(commentId: string, type: VoteVariant) {
 
 	return Axios({
 		method: 'post',
-		url: (process.env.REACT_APP_BACKEND_URL as string) + 'votes',
+		url: (process.env.REACT_APP_BACKEND_URL as string) + '/votes',
 		data: { comment_id: commentId, type },
 		headers: headers,
 	});
