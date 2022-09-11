@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 
 import { ArticlesModule } from './endpoints/articles/articles.module';
 import { AuthModule } from './endpoints/auth/auth.module';
@@ -9,6 +10,7 @@ import { VotesModule } from './endpoints/votes/votes.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     ArticlesModule,
     ImagesModule,
     AuthModule,
