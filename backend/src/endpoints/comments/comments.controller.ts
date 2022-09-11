@@ -1,5 +1,14 @@
-import { Body, Controller, Headers, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Headers,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { comments } from '@prisma/client';
 
 import { JwtGuard } from 'src/endpoints/auth/guard/jwt.guard';
 import { CommentsService } from './comments.service';
@@ -11,9 +20,17 @@ export class CommentsController {
     private jwtService: JwtService,
   ) {}
 
+  @Get(':article_id')
+  getComments(@Param('article_id') articleId: string): Promise<comments[]> {
+    return this.commentsService.getComments(articleId);
+  }
+
   @Post()
   @UseGuards(JwtGuard)
-  createComment(@Body() body: CreateComment, @Headers() headers) {
+  createComment(
+    @Body() body: CreateComment,
+    @Headers() headers,
+  ): Promise<comments> {
     const decodedToken = this.jwtService.decode(
       headers.authorization.split(' ')[1],
     );

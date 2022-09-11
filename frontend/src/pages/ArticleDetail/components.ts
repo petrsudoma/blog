@@ -35,5 +35,4 @@ export const Text = styled(ReactMarkdown)`
 	margin-top: max(30px, 3%);
 	width: 100%;
 	max-width: 700px;
-	white-space: pre;
 `;

@@ -1,10 +1,9 @@
-import { useSnackbar } from 'notistack';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Author from '../../../components/Author';
 import { ArticleType } from '../../../types';
-import { fetchImage, fetchUser } from '../../../api';
+import { fetchComments, fetchImage, fetchUser } from '../../../api';
 import {
 	Image,
 	ImageInfo,
@@ -20,12 +19,12 @@ type ArticleProps = ArticleType;
 const Article: React.FC<ArticleProps> = function (props) {
 	const [image, setImage] = useState<string>('');
 	const [author, setAuthor] = useState<string>('');
-	const { enqueueSnackbar } = useSnackbar();
-	const { title, perex, created_at, image_id, id, user_id } = props;
+	const [numOfComments, setNumOfComments] = useState<number>(0);
 	const navigate = useNavigate();
+	const { title, perex, created_at, image_id, id, user_id } = props;
 
-	const fetchImageHandler = useCallback(async () => {
-		return await fetchImage(image_id);
+	const fetchImageHandler = useCallback(() => {
+		return fetchImage(image_id);
 	}, [image_id]);
 
 	function handleArticleClick() {
@@ -35,7 +34,8 @@ const Article: React.FC<ArticleProps> = function (props) {
 	useEffect(() => {
 		fetchUser(user_id).then((res) => setAuthor(res.data.username));
 		fetchImageHandler().then((res) => setImage(res));
-	}, [fetchImageHandler, enqueueSnackbar, user_id]);
+		fetchComments(id).then((res) => setNumOfComments(res.data.length));
+	}, [fetchImageHandler, user_id, id]);
 
 	return (
 		<ArticleComponent>
@@ -49,7 +49,7 @@ const Article: React.FC<ArticleProps> = function (props) {
 
 				<BottomWrapper>
 					<ArticleLink onClick={handleArticleClick}>Read whole article</ArticleLink>
-					<CommentsText onClick={handleArticleClick}>4 comments</CommentsText>
+					<CommentsText onClick={handleArticleClick}>{numOfComments} comments</CommentsText>
 				</BottomWrapper>
 			</ImageInfo>
 		</ArticleComponent>
