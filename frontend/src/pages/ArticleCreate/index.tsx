@@ -67,7 +67,7 @@ function ArticleCreate() {
 				});
 		} catch (err: any) {
 			enqueueSnackbar(err.message, { variant: 'error' });
-			setLoading(true);
+			setLoading(false);
 		}
 	}
 

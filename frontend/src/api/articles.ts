@@ -1,7 +1,11 @@
 import Axios from 'axios';
 
-async function fetchArticle(articleId: string) {
+function fetchArticle(articleId: string) {
 	return Axios.get((process.env.REACT_APP_BACKEND_URL as string) + '/articles/' + articleId);
+}
+
+function fetchArticles() {
+	return Axios.get((process.env.REACT_APP_BACKEND_URL as string) + '/articles');
 }
 
 type CreateArticleType = {
@@ -17,4 +21,4 @@ function postArticle(data: CreateArticleType) {
 	});
 }
 
-export { fetchArticle, postArticle };
+export { fetchArticle, fetchArticles, postArticle };
