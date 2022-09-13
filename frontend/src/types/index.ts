@@ -8,6 +8,7 @@ export type ArticleType = {
 	content?: string;
 	user_id: string;
 	comments?: CommentType[];
+	num_of_comments?: number;
 };
 
 export type CommentType = {

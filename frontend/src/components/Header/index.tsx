@@ -38,14 +38,14 @@ function Header() {
 					<Logo />
 				</Link>
 
-				<Link to='/'>Recent Articles</Link>
-				<Link to='/'>About</Link>
+				<Link to='/'>Articles</Link>
+				<Link to='/about'>About</Link>
 			</LeftLinks>
 
 			{loginContext?.signedIn ? (
 				<>
 					<RightLinks>
-						<Link id='right-link' to='/'>
+						<Link id='right-link' to='/articles/list'>
 							My Articles
 						</Link>
 						<Link id='right-link' to='/articles/create'>

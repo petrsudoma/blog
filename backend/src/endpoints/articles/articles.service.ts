@@ -22,6 +22,10 @@ export class ArticlesService {
     return articles;
   }
 
+  getUserArticles(userId: string): Promise<articles[]> {
+    return this.repository.getUserArticles(userId);
+  }
+
   getArticle(id: string): Promise<articles> {
     return this.repository.getArticle(id, true);
   }
@@ -45,7 +49,7 @@ export class ArticlesService {
     return this.repository.createArticle(newArticle, userId);
   }
 
-  deleteArticle(id: string): Promise<articles> {
-    return this.repository.deleteArticle(id);
+  deleteArticle(articleId: string, userId: string): Promise<articles> {
+    return this.repository.deleteArticle(articleId, userId);
   }
 }
