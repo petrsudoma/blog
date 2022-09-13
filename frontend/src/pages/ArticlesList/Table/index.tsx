@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Axios from 'axios';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,9 +7,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import { ArticleType } from '../../../types';
 import { Paper } from '@mui/material';
+import styled from '@emotion/styled';
+import { deleteArticle, fetchComments, fetchUserArticles } from '../../../api';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 	if (b[orderBy] < a[orderBy]) {
@@ -51,9 +54,9 @@ const headCells: readonly HeadCell[] = [
 		label: 'Perex',
 	},
 	{
-		id: 'comments',
+		id: 'num_of_comments',
 		numeric: true,
-		label: 'Number of comments',
+		label: 'Comments',
 	},
 	{
 		id: 'actions',
@@ -79,18 +82,14 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 		<TableHead>
 			<TableRow>
 				{headCells.map((headCell) => (
-					<TableCell
-						key={headCell.id}
-						align={headCell.numeric ? 'right' : 'left'}
-						sortDirection={orderBy === headCell.id ? order : false}
-					>
-						<TableSortLabel
+					<TableCell key={headCell.id} sortDirection={orderBy === headCell.id ? order : false}>
+						<HeaderCell
 							active={orderBy === headCell.id}
 							direction={orderBy === headCell.id ? order : 'asc'}
 							onClick={createSortHandler(headCell.id)}
 						>
 							{headCell.label}
-						</TableSortLabel>
+						</HeaderCell>
 					</TableCell>
 				))}
 			</TableRow>
@@ -109,15 +108,30 @@ export default function ArticlesTable() {
 		setOrderBy(property);
 	};
 
+	function handleDeleteArticle(articleId: string) {
+		deleteArticle(articleId).then(() => window.location.reload());
+	}
+
 	useEffect(() => {
-		Axios.get((process.env.REACT_APP_BACKEND_URL as string) + '/articles').then((res) =>
-			setArticles(res.data)
-		);
+		async function getUserArticles() {
+			const res = await fetchUserArticles();
+			const articles: ArticleType[] = res.data;
+			const articlesWithComments: ArticleType[] = [];
+
+			for (const article of articles) {
+				const comments = await fetchComments(article.id);
+				articlesWithComments.push({ ...article, num_of_comments: comments.data.length });
+			}
+
+			setArticles(articlesWithComments);
+		}
+
+		getUserArticles();
 	}, []);
 
 	return (
 		<Box>
-			<Paper>
+			<TableBackground>
 				<TableContainer>
 					<Table>
 						<EnhancedTableHead
@@ -130,13 +144,51 @@ export default function ArticlesTable() {
 							{articles
 								.slice()
 								.sort(getComparator(order, orderBy))
-								.map((row: ArticleType, index) => {
-									return <TableRow hover role='checkbox' tabIndex={-1} key={row.id}></TableRow>;
+								.map((row: ArticleType) => {
+									return (
+										<TableRow key={row.id}>
+											<Cell width='20%'>{row.title}</Cell>
+											<Cell width='60%'>{row.perex}</Cell>
+											<Cell width='10%'>{row.num_of_comments}</Cell>
+											<Cell width='10%' align='center'>
+												<EditButton />
+												<DeleteButton onClick={() => handleDeleteArticle(row.id)} />
+											</Cell>
+										</TableRow>
+									);
 								})}
 						</TableBody>
 					</Table>
 				</TableContainer>
-			</Paper>
+			</TableBackground>
 		</Box>
 	);
 }
+
+const TableBackground = styled(Paper)`
+	margin-top: 50px;
+	min-width: 600px;
+`;
+
+const HeaderCell = styled(TableSortLabel)`
+	font-size: 0.9em;
+	font-weight: bold;
+`;
+
+const Cell = styled(TableCell)`
+	font-size: 0.7em;
+`;
+
+const EditButton = styled(EditIcon)`
+	font-size: 1.4em;
+	cursor: pointer;
+	position: relative;
+	right: 10px;
+`;
+
+const DeleteButton = styled(DeleteIcon)`
+	font-size: 1.4em;
+	cursor: pointer;
+	position: relative;
+	right: 5px;
+`;

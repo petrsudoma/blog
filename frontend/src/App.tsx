@@ -28,7 +28,10 @@ function App() {
 					element={loginContext?.signedIn ? <ArticleCreate /> : <Navigate to='/' />}
 				/>
 				<Route path='/articles/:articleId' element={<ArticleDetail />} />
-				<Route path='/articles/list' element={<ArticlesList />} />
+				<Route
+					path='/articles/list'
+					element={loginContext?.signedIn ? <ArticlesList /> : <Navigate to='/' />}
+				/>
 				<Route path='/signin' element={<Signin />} />
 			</Routes>
 		</Layout>
