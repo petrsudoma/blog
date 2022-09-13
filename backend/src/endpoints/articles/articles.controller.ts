@@ -32,6 +32,16 @@ export class ArticlesController {
     return this.service.getArticles();
   }
 
+  @Get('protected')
+  @UseGuards(JwtGuard)
+  getUserArticles(@Headers() headers) {
+    const userId = this.jwtService.decode(
+      headers.authorization.split(' ')[1],
+    ).sub;
+
+    return this.service.getUserArticles(userId);
+  }
+
   @Get(':id')
   getArticle(@Param() params: ArticleId): Promise<articles> {
     return this.service.getArticle(params.id);
@@ -61,7 +71,14 @@ export class ArticlesController {
 
   @Delete(':id')
   @UseGuards(JwtGuard)
-  deleteArticle(@Param() params: ArticleId): Promise<articles> {
-    return this.service.deleteArticle(params.id);
+  deleteArticle(
+    @Param() params: ArticleId,
+    @Headers() headers,
+  ): Promise<articles> {
+    const userId = this.jwtService.decode(
+      headers.authorization.split(' ')[1],
+    ).sub;
+
+    return this.service.deleteArticle(params.id, userId);
   }
 }
