@@ -11,7 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { ArticleType } from '../../../types';
-import { Paper } from '@mui/material';
+import { Paper, Tooltip } from '@mui/material';
 import styled from '@emotion/styled';
 import { deleteArticle, fetchComments, fetchUserArticles } from '../../../api';
 
@@ -151,8 +151,13 @@ export default function ArticlesTable() {
 											<Cell width='60%'>{row.perex}</Cell>
 											<Cell width='10%'>{row.num_of_comments}</Cell>
 											<Cell width='10%' align='center'>
-												<EditButton />
-												<DeleteButton onClick={() => handleDeleteArticle(row.id)} />
+												<Tooltip title='Edit article'>
+													<EditButton />
+												</Tooltip>
+
+												<Tooltip title='Delete article'>
+													<DeleteButton onClick={() => handleDeleteArticle(row.id)} />
+												</Tooltip>
 											</Cell>
 										</TableRow>
 									);
