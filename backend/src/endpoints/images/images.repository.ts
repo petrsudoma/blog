@@ -42,8 +42,7 @@ export class ImagesRepository {
     return imageId;
   }
 
-  async deleteImage(id: string): Promise<string> {
+  async deleteImage(id: string) {
     await s3Client.send(new DeleteObjectCommand(createBucketParams(id)));
-    return 'OK';
   }
 }

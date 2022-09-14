@@ -22,7 +22,7 @@ export class ImagesService {
     return this.repository.uploadImage(image);
   }
 
-  deleteImage(id: string): Promise<string> {
-    return this.repository.deleteImage(id);
+  deleteImage(id: string) {
+    this.repository.deleteImage(id);
   }
 }

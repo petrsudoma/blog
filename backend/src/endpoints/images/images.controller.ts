@@ -4,6 +4,7 @@ import {
   FileTypeValidator,
   Get,
   Header,
+  HttpCode,
   MaxFileSizeValidator,
   Param,
   ParseFilePipe,
@@ -51,7 +52,8 @@ export class ImagesController {
   @Delete(':id')
   @Header('Content-Type', 'text/plain')
   @UseGuards(JwtGuard)
-  deleteImage(@Param() params: ImageId): Promise<string> {
-    return this.service.deleteImage(params.id);
+  @HttpCode(204)
+  deleteImage(@Param() params: ImageId) {
+    this.service.deleteImage(params.id);
   }
 }
