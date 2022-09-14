@@ -1,17 +1,36 @@
+import { useEffect, useState } from 'react';
+import { useSnackbar } from 'notistack';
+
 import { ArticlesWrapper } from './components';
 import Article from './Article';
-import { useArticles } from '../../hooks/useArticles';
 import { ArticleType } from '../../types';
 import LoadingCircle from '../../components/LoadingCircle';
 import PageHeading from '../../components/PageHeading';
 import { sortByDate } from '../../utils/sortByDate';
+import { fetchArticles } from '../../api';
+import { fetchError } from '../../utils/apiError';
 
 function Articles() {
-	const articles = useArticles();
+	const [articles, setArticles] = useState<ArticleType[]>([]);
+	const [loading, setLoading] = useState<boolean>(false);
+	const { enqueueSnackbar } = useSnackbar();
+
+	useEffect(() => {
+		setLoading(true);
+		fetchArticles()
+			.then((res) => {
+				setArticles(res.data);
+			})
+			.catch(() => {
+				const [message, options] = fetchError();
+				enqueueSnackbar(message, options);
+			})
+			.finally(() => setLoading(false));
+	}, [enqueueSnackbar]);
 
 	return (
 		<>
-			{articles.length !== 0 ? null : <LoadingCircle />}
+			{loading && <LoadingCircle />}
 			<PageHeading>Recent Articles</PageHeading>
 
 			<ArticlesWrapper>

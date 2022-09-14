@@ -11,7 +11,8 @@ type LoginProviderProps = {
 	children: React.ReactNode;
 };
 const LoginProvider: React.FC<LoginProviderProps> = function (props) {
-	const [signedIn, setSignedIn] = useState<boolean>(false);
+	const token = localStorage.getItem('access_token');
+	const [signedIn, setSignedIn] = useState<boolean>(!!token);
 
 	function signIn() {
 		const accessToken = localStorage.getItem('access_token');

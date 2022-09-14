@@ -10,12 +10,12 @@ import './index.css';
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
 	<React.StrictMode>
-		<Router>
-			<SnackbarProvider maxSnack={3} anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-				<LoginProvider>
+		<LoginProvider>
+			<Router>
+				<SnackbarProvider maxSnack={3} anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
 					<App />
-				</LoginProvider>
-			</SnackbarProvider>
-		</Router>
+				</SnackbarProvider>
+			</Router>
+		</LoginProvider>
 	</React.StrictMode>
 );

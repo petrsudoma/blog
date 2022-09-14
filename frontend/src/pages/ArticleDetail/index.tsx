@@ -10,6 +10,7 @@ import { Image, Layout, Text, TouchedPageHeading } from './components';
 import Comments from './Comments';
 import { sortByDate } from '../../utils/sortByDate';
 import './markdown.css';
+import { fetchError } from '../../utils/apiError';
 
 function ArticleDetail() {
 	const [article, setArticle] = useState<ArticleType>();
@@ -34,11 +35,12 @@ function ArticleDetail() {
 
 				fetchUser(res.data.user_id).then((res) => setAuthor(res.data.username));
 
-				fetchImageHandler(res.data.image_id)
-					.then((res) => setImage(res))
-					.catch((err) => console.error(err));
+				fetchImageHandler(res.data.image_id).then((res) => setImage(res));
 			})
-			.catch(() => enqueueSnackbar('Error. Try again', { variant: 'error' }));
+			.catch(() => {
+				const [message, options] = fetchError();
+				enqueueSnackbar(message, options);
+			});
 	}, [fetchArticleHandler, enqueueSnackbar, fetchImageHandler]);
 
 	return (

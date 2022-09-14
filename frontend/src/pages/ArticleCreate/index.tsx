@@ -1,31 +1,11 @@
-import { Formik } from 'formik';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
 import { postArticle, postImage } from '../../api';
+import ArticleForm from '../../components/ArticleForm';
 import LoadingCircle from '../../components/LoadingCircle';
 
-import {
-	DeleteUpload,
-	FormComponent,
-	Input,
-	Label,
-	PublishButton,
-	ContentInput,
-	TouchedPageHeading,
-	UploadButton,
-	UploadText,
-	UploadTextContainer,
-	PerexInput,
-	ErrorText,
-} from './components';
-
-const validationSchema = Yup.object().shape({
-	title: Yup.string().min(5, 'Too short').max(50, 'Too long').required('Required'),
-	perex: Yup.string().min(10, 'Too short').max(300, 'Too long (max 300)').required('Required'),
-	content: Yup.string().min(10, 'Too short').required('Required'),
-});
+import { TouchedPageHeading } from './components';
 
 function ArticleCreate() {
 	const [file, setFile] = useState<File>();
@@ -39,13 +19,13 @@ function ArticleCreate() {
 		const file = e.target.files[0];
 
 		if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
-			return enqueueSnackbar('Upload an image', { variant: 'warning' });
+			return enqueueSnackbar('Upload jpeg or png', { variant: 'warning' });
 		}
 
 		setFile(file);
 	}
 
-	function deleteImage() {
+	function deleteFile() {
 		setFile(undefined);
 	}
 
@@ -82,67 +62,17 @@ function ArticleCreate() {
 	}
 
 	return (
-		<Formik
-			initialValues={{ title: '', perex: '', content: '' }}
-			validationSchema={validationSchema}
-			onSubmit={(values) => uploadArticle(values)}
-		>
-			{({ values, touched, errors, handleChange, handleSubmit }) => (
-				<form onSubmit={handleSubmit}>
-					<TouchedPageHeading>Create new article</TouchedPageHeading>
-					<PublishButton type='submit'>Publish article</PublishButton>
+		<div>
+			<TouchedPageHeading>Create new article</TouchedPageHeading>
 
-					<FormComponent>
-						<Label>Title</Label>
-						<Input
-							name='title'
-							value={values.title}
-							onChange={handleChange}
-							placeholder='My first article'
-						/>
-						{touched.title && errors.title && <ErrorText>{errors.title}</ErrorText>}
-					</FormComponent>
-
-					<FormComponent>
-						<Label>Featured image</Label>
-						<UploadButton uploaded={!!file}>
-							<input type='file' style={{ display: 'none' }} onChange={handleFileUpload} />
-							Upload image
-						</UploadButton>
-
-						{file && (
-							<UploadTextContainer>
-								<UploadText>Image uploaded</UploadText>
-								<DeleteUpload onClick={deleteImage}>Delete</DeleteUpload>
-							</UploadTextContainer>
-						)}
-					</FormComponent>
-
-					<FormComponent>
-						<Label>Perex</Label>
-						<PerexInput
-							name='perex'
-							value={values.perex}
-							onChange={handleChange}
-							placeholder='Write here'
-						/>
-						{touched.perex && errors.perex && <ErrorText>{errors.perex}</ErrorText>}
-					</FormComponent>
-
-					<FormComponent>
-						<Label>Content</Label>
-						<ContentInput
-							name='content'
-							value={values.content}
-							onChange={handleChange}
-							placeholder='Supports Markdown :)'
-						/>
-						{touched.content && errors.content && <ErrorText>{errors.content}</ErrorText>}
-					</FormComponent>
-					{loading && <LoadingCircle />}
-				</form>
-			)}
-		</Formik>
+			<ArticleForm
+				handleSubmit={uploadArticle}
+				file={file}
+				deleteFile={deleteFile}
+				handleFileUpload={handleFileUpload}
+			/>
+			{loading && <LoadingCircle />}
+		</div>
 	);
 }
 

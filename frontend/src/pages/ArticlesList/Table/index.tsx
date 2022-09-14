@@ -14,6 +14,7 @@ import { ArticleType } from '../../../types';
 import { Paper, Tooltip } from '@mui/material';
 import styled from '@emotion/styled';
 import { deleteArticle, fetchComments, fetchUserArticles } from '../../../api';
+import { useNavigate } from 'react-router-dom';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 	if (b[orderBy] < a[orderBy]) {
@@ -101,6 +102,7 @@ export default function ArticlesTable() {
 	const [articles, setArticles] = useState<ArticleType[]>([]);
 	const [order, setOrder] = useState<Order>('asc');
 	const [orderBy, setOrderBy] = useState<string>('title');
+	const navigate = useNavigate();
 
 	const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -152,7 +154,9 @@ export default function ArticlesTable() {
 											<Cell width='10%'>{row.num_of_comments}</Cell>
 											<Cell width='10%' align='center'>
 												<Tooltip title='Edit article'>
-													<EditButton />
+													<EditButton
+														onClick={() => navigate('/articles/edit', { state: { article: row } })}
+													/>
 												</Tooltip>
 
 												<Tooltip title='Delete article'>
