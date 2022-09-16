@@ -40,28 +40,23 @@ function getComparator<Key extends keyof any>(
 interface HeadCell {
 	id: string;
 	label: string;
-	numeric: boolean;
 }
 
-const headCells: readonly HeadCell[] = [
+const headCells: HeadCell[] = [
 	{
 		id: 'title',
-		numeric: false,
 		label: 'Article title',
 	},
 	{
 		id: 'perex',
-		numeric: false,
 		label: 'Perex',
 	},
 	{
 		id: 'num_of_comments',
-		numeric: true,
 		label: 'Comments',
 	},
 	{
 		id: 'actions',
-		numeric: false,
 		label: 'Actions',
 	},
 ];
@@ -71,6 +66,7 @@ interface EnhancedTableProps {
 	order: Order;
 	orderBy: string;
 	rowCount: number;
+	smallScreen: boolean;
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
@@ -82,17 +78,22 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 	return (
 		<TableHead>
 			<TableRow>
-				{headCells.map((headCell) => (
-					<TableCell key={headCell.id} sortDirection={orderBy === headCell.id ? order : false}>
-						<HeaderCell
-							active={orderBy === headCell.id}
-							direction={orderBy === headCell.id ? order : 'asc'}
-							onClick={createSortHandler(headCell.id)}
-						>
-							{headCell.label}
-						</HeaderCell>
-					</TableCell>
-				))}
+				{headCells.map((headCell) => {
+					if (props.smallScreen && (headCell.id === 'perex' || headCell.id === 'num_of_comments')) {
+						return false;
+					}
+					return (
+						<TableCell key={headCell.id} sortDirection={orderBy === headCell.id ? order : false}>
+							<HeaderCell
+								active={orderBy === headCell.id}
+								direction={orderBy === headCell.id ? order : 'asc'}
+								onClick={createSortHandler(headCell.id)}
+							>
+								{headCell.label}
+							</HeaderCell>
+						</TableCell>
+					);
+				})}
 			</TableRow>
 		</TableHead>
 	);
@@ -102,6 +103,7 @@ export default function ArticlesTable() {
 	const [articles, setArticles] = useState<ArticleType[]>([]);
 	const [order, setOrder] = useState<Order>('asc');
 	const [orderBy, setOrderBy] = useState<string>('title');
+	const [smallScreen, setSmallScreen] = useState<boolean>(false);
 	const navigate = useNavigate();
 
 	const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
@@ -112,6 +114,14 @@ export default function ArticlesTable() {
 
 	function handleDeleteArticle(articleId: string) {
 		deleteArticle(articleId).then(() => window.location.reload());
+	}
+
+	function handleScreenSize() {
+		if (window.innerWidth <= 992) {
+			setSmallScreen(true);
+		} else {
+			setSmallScreen(false);
+		}
 	}
 
 	useEffect(() => {
@@ -128,7 +138,11 @@ export default function ArticlesTable() {
 			setArticles(articlesWithComments);
 		}
 
+		handleScreenSize();
 		getUserArticles();
+		window.addEventListener('resize', handleScreenSize);
+
+		return () => window.removeEventListener('resize', handleScreenSize);
 	}, []);
 
 	return (
@@ -141,6 +155,7 @@ export default function ArticlesTable() {
 							orderBy={orderBy}
 							onRequestSort={handleRequestSort}
 							rowCount={articles.length}
+							smallScreen={smallScreen}
 						/>
 						<TableBody>
 							{articles
@@ -149,10 +164,10 @@ export default function ArticlesTable() {
 								.map((row: ArticleType) => {
 									return (
 										<TableRow key={row.id}>
-											<Cell width='20%'>{row.title}</Cell>
-											<Cell width='60%'>{row.perex}</Cell>
-											<Cell width='10%'>{row.num_of_comments}</Cell>
-											<Cell width='10%' align='center'>
+											<Cell width={smallScreen ? '80%' : '20%'}>{row.title}</Cell>
+											{!smallScreen && <Cell width='60%'>{row.perex}</Cell>}
+											{!smallScreen && <Cell width='10%'>{row.num_of_comments}</Cell>}
+											<Cell width={smallScreen ? '20%' : '10%'} align='center'>
 												<Tooltip title='Edit article'>
 													<EditButton
 														onClick={() => navigate('/articles/edit', { state: { article: row } })}
@@ -176,7 +191,6 @@ export default function ArticlesTable() {
 
 const TableBackground = styled(Paper)`
 	margin-top: 50px;
-	min-width: 600px;
 `;
 
 const HeaderCell = styled(TableSortLabel)`

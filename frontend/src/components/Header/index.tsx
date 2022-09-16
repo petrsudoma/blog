@@ -9,10 +9,10 @@ import {
 	Logo,
 	SignInIcon,
 	SignInLink,
-	LeftLinks,
 	LogoutButton,
-	RightLinks,
 	BurgerMenu,
+	LinksWrapper,
+	ImageLink,
 } from './components';
 
 function Header() {
@@ -33,38 +33,32 @@ function Header() {
 
 	return (
 		<HeaderComponent>
-			<LeftLinks>
-				<Link to='/'>
+			<LinksWrapper>
+				<ImageLink to='/'>
 					<Logo />
-				</Link>
+				</ImageLink>
 
-				<Link to='/'>Articles</Link>
+				<Link to='/'>Recent articles</Link>
 				<Link to='/about'>About</Link>
-			</LeftLinks>
+			</LinksWrapper>
 
 			{loginContext?.signedIn ? (
-				<>
-					<RightLinks>
-						<Link id='right-link' to='/articles/list'>
-							My Articles
-						</Link>
-						<Link id='right-link' to='/articles/create'>
-							Create Article
-						</Link>
-						<LogoutButton id='right-link' onClick={logout}>
-							Logout
-						</LogoutButton>
-						<BurgerMenu onClick={handleDrawer} />
-						<DrawerMenu
-							active={drawer}
-							logout={() => {
-								loginContext.logout();
-								handleDrawer();
-							}}
-							handleDrawer={handleDrawer}
-						/>
-					</RightLinks>
-				</>
+				<LinksWrapper>
+					<Link to='/articles/list'>My Articles</Link>
+					<Link to='/articles/create'>Create Article</Link>
+					<LogoutButton onClick={logout} headerVariant>
+						Logout
+					</LogoutButton>
+					<BurgerMenu onClick={handleDrawer} />
+					<DrawerMenu
+						active={drawer}
+						logout={() => {
+							loginContext.logout();
+							handleDrawer();
+						}}
+						handleDrawer={handleDrawer}
+					/>
+				</LinksWrapper>
 			) : (
 				<SignInLink to='/signin'>
 					Sign in

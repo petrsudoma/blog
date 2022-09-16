@@ -1,7 +1,7 @@
 import { Drawer } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
 import { LogoutButton } from '../Header/components';
+
 import {
 	CloseButton,
 	DrawerLink,
@@ -32,14 +32,28 @@ const DrawerMenu: React.FC<DrawerMenuProps> = function (props) {
 				<DrawerList>
 					<DrawerListItem>
 						<DrawerLink onClick={handleDrawer} to='/'>
+							Recent articles
+						</DrawerLink>
+					</DrawerListItem>
+
+					<DrawerListItem>
+						<DrawerLink onClick={handleDrawer} to='/about'>
+							About
+						</DrawerLink>
+					</DrawerListItem>
+
+					<DrawerListItem>
+						<DrawerLink onClick={handleDrawer} to='/articles/list'>
 							My Articles
 						</DrawerLink>
 					</DrawerListItem>
+
 					<DrawerListItem>
 						<DrawerLink onClick={handleDrawer} to='/articles/create'>
 							Create Article
 						</DrawerLink>
 					</DrawerListItem>
+
 					<DrawerListItem>
 						<LogoutButton onClick={logout}>Logout</LogoutButton>
 					</DrawerListItem>

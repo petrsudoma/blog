@@ -10,18 +10,11 @@ export const HeaderComponent = styled.div`
 	background-color: #f8f9fa;
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 	position: absolute;
 	left: 0;
 	top: 0;
-	padding-left: 5%;
-`;
-
-export const LeftLinks = styled.div`
-	height: 100%;
-	width: 50%;
-	min-width: 200px;
-	display: flex;
-	align-items: center;
+	padding: 0 5%;
 `;
 
 export const Logo = styled.svg`
@@ -35,35 +28,43 @@ export const Logo = styled.svg`
 	}
 `;
 
-export const RightLinks = styled.div`
-	width: 50%;
-	height: 100%;
+export const LinksWrapper = styled.div`
 	display: flex;
 	align-items: center;
-	justify-content: flex-end;
-
-	@media only screen and (max-width: 850px) {
-		& > #right-link {
-			display: none;
-		}
-	}
 `;
 
 export const Link = styled(NavLink)`
 	font-size: 0.7em;
-	margin-left: 2%;
 	cursor: pointer;
 	text-decoration: none;
 	color: #000;
+	white-space: pre;
+	margin-right: 40px;
+
+	@media only screen and (max-width: 768px) {
+		display: none;
+	}
 `;
 
-export const LogoutButton = styled.button`
+export const ImageLink = styled(NavLink)`
+	margin-right: 40px;
+`;
+
+type LogoutButtonProps = {
+	headerVariant?: boolean;
+};
+export const LogoutButton = styled.button<LogoutButtonProps>`
 	font-size: 0.7em;
 	border: none;
 	background-color: transparent;
-	margin-left: 2%;
 	color: var(--blue);
 	cursor: pointer;
+
+	${(props) =>
+		!!props.headerVariant &&
+		`@media only screen and (max-width: 768px) {
+		display: none;
+	}`}
 `;
 
 export const SignInLink = styled(NavLink)`
@@ -91,7 +92,7 @@ export const BurgerMenu = styled(MenuIcon)`
 	cursor: pointer;
 	visibility: hidden;
 
-	@media only screen and (max-width: 850px) {
+	@media only screen and (max-width: 768px) {
 		visibility: visible;
 	}
 `;

@@ -70,6 +70,7 @@ function ArticleCreate() {
 				file={file}
 				deleteFile={deleteFile}
 				handleFileUpload={handleFileUpload}
+				originalFileTouched={true}
 			/>
 			{loading && <LoadingCircle />}
 		</div>
