@@ -4,6 +4,7 @@ import {
   FileTypeValidator,
   Get,
   Header,
+  Headers,
   HttpCode,
   MaxFileSizeValidator,
   Param,
@@ -13,6 +14,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtGuard } from 'src/endpoints/auth/guard/jwt.guard';
 import { ImagesService } from './images.service';
@@ -23,12 +25,15 @@ type ImageId = {
 
 @Controller('images')
 export class ImagesController {
-  constructor(private service: ImagesService) {}
+  constructor(
+    private imagesService: ImagesService,
+    private jwtService: JwtService,
+  ) {}
 
   @Get(':id')
   @Header('Content-Type', 'text/plain')
   getImage(@Param() params: ImageId): Promise<string> {
-    return this.service.getImage(params.id);
+    return this.imagesService.getImage(params.id);
   }
 
   @Post()
@@ -46,14 +51,18 @@ export class ImagesController {
     )
     image: Express.Multer.File,
   ): Promise<string> {
-    return this.service.uploadImage(image);
+    return this.imagesService.uploadImage(image);
   }
 
   @Delete(':id')
   @Header('Content-Type', 'text/plain')
   @UseGuards(JwtGuard)
   @HttpCode(204)
-  deleteImage(@Param() params: ImageId) {
-    this.service.deleteImage(params.id);
+  deleteImage(@Param() params: ImageId, @Headers() headers) {
+    const userId = this.jwtService.decode(
+      headers.authorization.split(' ')[1],
+    ).sub;
+
+    this.imagesService.deleteImage(params.id, userId);
   }
 }

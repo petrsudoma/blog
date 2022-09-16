@@ -1,6 +1,5 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import * as argon from 'argon2';
-import { v4 as uuid } from 'uuid';
 import { PrismaService } from 'src/prisma.service';
 
 import { User } from './dto';
@@ -28,7 +27,6 @@ export class AuthService {
     try {
       const user = await this.prisma.users.create({
         data: {
-          id: uuid(),
           username: data.username,
           password: hash,
         },

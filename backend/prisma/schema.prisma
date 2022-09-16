@@ -8,7 +8,7 @@ datasource db {
 }
 
 model articles {
-  id         String     @id @db.Uuid
+  id         String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   title      String     @db.VarChar(50)
   perex      String     @db.VarChar(300)
   content    String     @db.VarChar
@@ -21,7 +21,7 @@ model articles {
 }
 
 model users {
-  id       String     @id @db.Uuid
+  id       String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   username String     @unique(map: "username_unique") @db.VarChar(30)
   password String     @db.VarChar
   articles articles[]
@@ -30,7 +30,7 @@ model users {
 }
 
 model comments {
-  id         String    @id @db.Uuid
+  id         String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   user_id    String?   @db.Uuid
   article_id String?   @db.Uuid
   content    String    @db.VarChar(600)
