@@ -25,7 +25,7 @@ const ValidationSchema = Yup.object().shape({
 	password: Yup.string().required('Required'),
 });
 
-function Signin() {
+function Auth() {
 	const [loading, setLoading] = useState<boolean>(false);
 	const navigate = useNavigate();
 	const { enqueueSnackbar } = useSnackbar();
@@ -97,4 +97,4 @@ function Signin() {
 	);
 }
 
-export default Signin;
+export default Auth;

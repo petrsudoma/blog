@@ -2,13 +2,13 @@ import { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-import Articles from './pages/Articles';
+import Articles from './pages/HomePage';
 import ArticleDetail from './pages/ArticleDetail';
-import Signin from './pages/Signin';
+import Signin from './pages/Auth';
 import Header from './components/Header';
 import { LoginContext } from './context/login';
 import ArticleCreate from './pages/ArticleCreate';
-import ArticlesList from './pages/ArticlesList';
+import ArticlesList from './pages/MyArticles';
 import ArticleEdit from './pages/ArticleEdit';
 
 function App() {

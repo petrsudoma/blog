@@ -13,8 +13,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { ArticleType } from '../../../types';
 import { Paper, Tooltip } from '@mui/material';
 import styled from '@emotion/styled';
-import { deleteArticle, fetchComments, fetchUserArticles } from '../../../api';
+import { deleteArticle, deleteImage, fetchComments, fetchUserArticles } from '../../../api';
 import { useNavigate } from 'react-router-dom';
+import { uploadError } from '../../../utils/apiError';
+import { useSnackbar } from 'notistack';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 	if (b[orderBy] < a[orderBy]) {
@@ -105,6 +107,7 @@ export default function ArticlesTable() {
 	const [orderBy, setOrderBy] = useState<string>('title');
 	const [smallScreen, setSmallScreen] = useState<boolean>(false);
 	const navigate = useNavigate();
+	const { enqueueSnackbar } = useSnackbar();
 
 	const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -112,8 +115,15 @@ export default function ArticlesTable() {
 		setOrderBy(property);
 	};
 
-	function handleDeleteArticle(articleId: string) {
-		deleteArticle(articleId).then(() => window.location.reload());
+	async function handleDeleteArticle(articleId: string, imageId: string) {
+		try {
+			await deleteImage(imageId);
+			await deleteArticle(articleId);
+			window.location.reload();
+		} catch {
+			const [message, options] = uploadError();
+			enqueueSnackbar(message, options);
+		}
 	}
 
 	function handleScreenSize() {
@@ -175,7 +185,7 @@ export default function ArticlesTable() {
 												</Tooltip>
 
 												<Tooltip title='Delete article'>
-													<DeleteButton onClick={() => handleDeleteArticle(row.id)} />
+													<DeleteButton onClick={() => handleDeleteArticle(row.id, row.image_id)} />
 												</Tooltip>
 											</Cell>
 										</TableRow>

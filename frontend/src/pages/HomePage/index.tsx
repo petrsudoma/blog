@@ -10,7 +10,7 @@ import { sortByDate } from '../../utils/sortByDate';
 import { fetchArticles } from '../../api';
 import { fetchError } from '../../utils/apiError';
 
-function Articles() {
+function HomePage() {
 	const [articles, setArticles] = useState<ArticleType[]>([]);
 	const [loading, setLoading] = useState<boolean>(false);
 	const { enqueueSnackbar } = useSnackbar();
@@ -42,4 +42,4 @@ function Articles() {
 	);
 }
 
-export default Articles;
+export default HomePage;

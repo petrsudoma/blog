@@ -1,7 +1,7 @@
 import PageHeading from '../../components/PageHeading';
 import ArticlesTable from './Table';
 
-function ArticlesList() {
+function MyArticles() {
 	return (
 		<>
 			<PageHeading>My articles</PageHeading>
@@ -11,4 +11,4 @@ function ArticlesList() {
 	);
 }
 
-export default ArticlesList;
+export default MyArticles;
