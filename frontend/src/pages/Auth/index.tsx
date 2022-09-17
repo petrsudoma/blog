@@ -1,100 +1,75 @@
-import { AxiosError } from 'axios';
-import { Formik } from 'formik';
-import { useSnackbar } from 'notistack';
-import { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
+import { AxiosError } from "axios";
+import { useSnackbar } from "notistack";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { signInUser, signUpUser } from "../../api";
+import LoadingCircle from "../../components/LoadingCircle";
+import { LoginContext } from "../../context/login";
+import { uploadError } from "../../utils/apiError";
 
-import LoadingCircle from '../../components/LoadingCircle';
-import { LoginContext } from '../../context/login';
-import { fetchToken } from '../../api';
-import {
-	Button,
-	Form,
-	MarginComponent,
-	Heading,
-	Input,
-	Label,
-	Wrapper,
-	ErrorText,
-	InputComponent,
-} from './components';
-
-const ValidationSchema = Yup.object().shape({
-	username: Yup.string().required('Required').min(5, 'Too short'),
-	password: Yup.string().required('Required'),
-});
+import { Box, SwitchModeButton, Wrapper } from "./components";
+import SignIn from "./SignIn";
+import SignUp from "./Signup";
 
 function Auth() {
-	const [loading, setLoading] = useState<boolean>(false);
-	const navigate = useNavigate();
-	const { enqueueSnackbar } = useSnackbar();
-	const loginContext = useContext(LoginContext);
+    const [signIn, setSignIn] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
+    const loginContext = useContext(LoginContext);
+    const navigate = useNavigate();
+    const { enqueueSnackbar } = useSnackbar();
 
-	return (
-		<Wrapper>
-			<Formik
-				initialValues={{ username: '', password: '' }}
-				validationSchema={ValidationSchema}
-				onSubmit={async ({ username, password }, { resetForm }) => {
-					setLoading(true);
-					try {
-						const res = await fetchToken(username, password);
-						localStorage.setItem('access_token', res.data.access_token);
-						localStorage.setItem(
-							'token_expiration',
-							new Date(new Date().getTime() + res.data.expires_in * 1000).toString()
-						);
-						loginContext?.signIn();
-						navigate('/');
-					} catch (err) {
-						if (err instanceof AxiosError) {
-							enqueueSnackbar(err.response?.data.message, { variant: 'error' });
-						} else {
-							console.error(err);
-						}
-					} finally {
-						setLoading(false);
-						resetForm();
-					}
-				}}
-			>
-				{({ values, errors, touched, handleChange, handleSubmit }) => (
-					<Form onSubmit={handleSubmit}>
-						<MarginComponent>
-							<Heading>Sign in</Heading>
+    async function handleSubmit(username: string, password: string) {
+        setLoading(true);
+        try {
+            let res;
+            if (signIn) {
+                res = await signInUser(username, password);
+            } else {
+                res = await signUpUser(username, password);
+            }
 
-							<InputComponent>
-								<Label>Username</Label>
-								<Input
-									name='username'
-									value={values.username}
-									onChange={handleChange}
-									placeholder='me@example.com'
-								/>
-								{errors.username && touched.username && <ErrorText>{errors.username}</ErrorText>}
-							</InputComponent>
+            localStorage.setItem("access_token", res.data.access_token);
+            localStorage.setItem(
+                "token_expiration",
+                new Date(
+                    new Date().getTime() + res.data.expires_in * 1000
+                ).toString()
+            );
+            loginContext?.signIn();
 
-							<InputComponent>
-								<Label>Password</Label>
-								<Input
-									name='password'
-									type='password'
-									value={values.password}
-									onChange={handleChange}
-									placeholder='********'
-								/>
-								{errors.password && touched.password && <ErrorText>{errors.password}</ErrorText>}
-							</InputComponent>
+            navigate("/");
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                enqueueSnackbar(err.response?.data.message, {
+                    variant: "error",
+                });
+            } else {
+                const [message, options] = uploadError();
+                enqueueSnackbar(message, options);
+            }
+        } finally {
+            setLoading(false);
+        }
+    }
 
-							<Button type='submit'>Sign in</Button>
-						</MarginComponent>
-					</Form>
-				)}
-			</Formik>
-			{loading ? <LoadingCircle /> : null}
-		</Wrapper>
-	);
+    return (
+        <Wrapper>
+            <Box signIn={signIn}>
+                {signIn ? (
+                    <SignIn handleSubmit={handleSubmit} />
+                ) : (
+                    <SignUp handleSubmit={handleSubmit} />
+                )}
+                <SwitchModeButton
+                    onClick={() => setSignIn((prevState) => !prevState)}
+                >
+                    {signIn ? "Sign up" : "Sign in"}
+                </SwitchModeButton>
+            </Box>
+
+            {loading && <LoadingCircle />}
+        </Wrapper>
+    );
 }
 
 export default Auth;

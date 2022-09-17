@@ -5,9 +5,12 @@ export const Wrapper = styled.div`
 	justify-content: center;
 `;
 
-export const Form = styled.form`
+type BoxProps = {
+	signIn: boolean;
+};
+export const Box = styled.div<BoxProps>`
 	width: 300px;
-	height: 250px;
+	height: ${(props) => (props.signIn ? '250px' : '320px')};
 	box-shadow: 0 16px 48px rgba(0, 0, 0, 0.175);
 	margin-top: calc(50px + 5%);
 	display: flex;
@@ -16,57 +19,11 @@ export const Form = styled.form`
 	position: relative;
 `;
 
-export const MarginComponent = styled.div`
-	height: 100%;
-	width: 80%;
-	margin: 10% auto;
-`;
-
-export const Heading = styled.h3`
-	font-weight: bold;
-`;
-
-export const InputComponent = styled.div`
-	position: relative;
-`;
-
-export const Label = styled.label`
+export const SwitchModeButton = styled.p`
+	color: var(--blue);
 	font-size: 0.7em;
-`;
-
-export const Input = styled.input`
-	height: 30px;
-	width: 100%;
-	font-size: 0.7em;
-	padding-left: 5px;
-	outline: none;
-	margin-bottom: 10px;
-`;
-
-export const Button = styled.button`
 	position: absolute;
-	right: 10%;
-	bottom: 5%;
-	font-size: 0.7em;
-	background-color: var(--blue);
-	border: none;
-	border-radius: 5px;
-	color: #fff;
-	padding: 5px 5px;
+	bottom: 20px;
 	cursor: pointer;
-
-	:hover {
-		background-color: #0062cc;
-	}
-
-	:active {
-		background-color: #003977;
-	}
-`;
-
-export const ErrorText = styled.p`
-	position: absolute;
-	bottom: -5px;
-	font-size: 0.5em;
-	color: red;
+	left: 30px;
 `;

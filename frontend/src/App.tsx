@@ -2,13 +2,13 @@ import { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-import Articles from './pages/HomePage';
+import HomePage from './pages/HomePage';
 import ArticleDetail from './pages/ArticleDetail';
-import Signin from './pages/Auth';
+import Auth from './pages/Auth';
 import Header from './components/Header';
 import { LoginContext } from './context/login';
 import ArticleCreate from './pages/ArticleCreate';
-import ArticlesList from './pages/MyArticles';
+import MyArticles from './pages/MyArticles';
 import ArticleEdit from './pages/ArticleEdit';
 
 function App() {
@@ -23,21 +23,21 @@ function App() {
 			<Header />
 			<Routes>
 				<Route path='/' element={<Navigate to='/articles' />} />
-				<Route path='/articles' element={<Articles />} />
+				<Route path='/articles' element={<HomePage />} />
 				<Route
 					path='/articles/create'
-					element={loginContext?.signedIn ? <ArticleCreate /> : <Navigate to='/' />}
+					element={loginContext?.signedIn ? <ArticleCreate /> : <Navigate to='/auth' />}
 				/>
 				<Route path='/articles/:articleId' element={<ArticleDetail />} />
 				<Route
 					path='/articles/list'
-					element={loginContext?.signedIn ? <ArticlesList /> : <Navigate to='/' />}
+					element={loginContext?.signedIn ? <MyArticles /> : <Navigate to='/auth' />}
 				/>
 				<Route
 					path='/articles/edit'
-					element={loginContext?.signedIn ? <ArticleEdit /> : <Navigate to='/' />}
+					element={loginContext?.signedIn ? <ArticleEdit /> : <Navigate to='/auth' />}
 				/>
-				<Route path='/signin' element={<Signin />} />
+				<Route path='/auth' element={<Auth />} />
 			</Routes>
 		</Layout>
 	);

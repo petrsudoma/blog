@@ -60,7 +60,7 @@ function Header() {
 					/>
 				</LinksWrapper>
 			) : (
-				<SignInLink to='/signin'>
+				<SignInLink to='/auth'>
 					Sign in
 					<SignInIcon />
 				</SignInLink>
