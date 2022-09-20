@@ -173,10 +173,23 @@ export default function ArticlesTable() {
 								.sort(getComparator(order, orderBy))
 								.map((row: ArticleType) => {
 									return (
-										<TableRow key={row.id}>
-											<Cell width={smallScreen ? '80%' : '20%'}>{row.title}</Cell>
-											{!smallScreen && <Cell width='60%'>{row.perex}</Cell>}
-											{!smallScreen && <Cell width='10%'>{row.num_of_comments}</Cell>}
+										<ClickableRow key={row.id}>
+											<Cell
+												width={smallScreen ? '80%' : '20%'}
+												onClick={() => navigate('/articles/' + row.id)}
+											>
+												{row.title}
+											</Cell>
+											{!smallScreen && (
+												<Cell width='60%' onClick={() => navigate('/articles/' + row.id)}>
+													{row.perex}
+												</Cell>
+											)}
+											{!smallScreen && (
+												<Cell width='10%' onClick={() => navigate('/articles/' + row.id)}>
+													{row.num_of_comments}
+												</Cell>
+											)}
 											<Cell width={smallScreen ? '20%' : '10%'} align='center'>
 												<Tooltip title='Edit article'>
 													<EditButton
@@ -188,7 +201,7 @@ export default function ArticlesTable() {
 													<DeleteButton onClick={() => handleDeleteArticle(row.id, row.image_id)} />
 												</Tooltip>
 											</Cell>
-										</TableRow>
+										</ClickableRow>
 									);
 								})}
 						</TableBody>
@@ -210,6 +223,14 @@ const HeaderCell = styled(TableSortLabel)`
 
 const Cell = styled(TableCell)`
 	font-size: 0.7em;
+`;
+
+const ClickableRow = styled(TableRow)`
+	cursor: pointer;
+
+	:hover {
+		background-color: #f7f7f7;
+	}
 `;
 
 const EditButton = styled(EditIcon)`

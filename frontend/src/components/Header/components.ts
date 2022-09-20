@@ -18,14 +18,15 @@ export const HeaderComponent = styled.div`
 `;
 
 export const Logo = styled.svg`
-	width: 40px;
+	width: 63px;
 	height: 50px;
 	background-image: url(/logo.svg);
+	background-size: cover;
+	background-position: center;
 	background-repeat: no-repeat;
-
-	@media only screen and (max-width: 400px) {
-		display: none;
-	}
+	transform: scale(0.6);
+	position: relative;
+	top: 2px;
 `;
 
 export const LinksWrapper = styled.div`
