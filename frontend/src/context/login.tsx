@@ -1,47 +1,47 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext } from "react";
 
 export type LoginContextType = {
-	signedIn: boolean;
-	signIn: () => void;
-	logout: () => void;
+    signedIn: boolean;
+    signIn: () => void;
+    logout: () => void;
 };
 export const LoginContext = createContext<LoginContextType | null>(null);
 
 type LoginProviderProps = {
-	children: React.ReactNode;
+    children: React.ReactNode;
 };
 const LoginProvider: React.FC<LoginProviderProps> = function (props) {
-	const token = localStorage.getItem('access_token');
-	const [signedIn, setSignedIn] = useState<boolean>(!!token);
+    const token = localStorage.getItem("access_token");
+    const [signedIn, setSignedIn] = useState<boolean>(!!token);
 
-	function signIn() {
-		const accessToken = localStorage.getItem('access_token');
-		const tokenExpiration = localStorage.getItem('token_expiration');
+    function signIn() {
+        const accessToken = localStorage.getItem("access_token");
+        const tokenExpiration = localStorage.getItem("token_expiration");
 
-		if (tokenExpiration) {
-			if (accessToken && new Date(tokenExpiration) > new Date()) {
-				if (!signedIn) {
-					setSignedIn(true);
-				}
-			} else {
-				if (signedIn) {
-					setSignedIn(false);
-				}
-			}
-		}
-	}
+        if (tokenExpiration) {
+            if (accessToken && new Date(tokenExpiration) > new Date()) {
+                if (!signedIn) {
+                    setSignedIn(true);
+                }
+            } else {
+                if (signedIn) {
+                    setSignedIn(false);
+                }
+            }
+        }
+    }
 
-	function logout() {
-		localStorage.removeItem('access_token');
-		localStorage.removeItem('token_expiration');
-		setSignedIn(false);
-	}
+    function logout() {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("token_expiration");
+        setSignedIn(false);
+    }
 
-	return (
-		<LoginContext.Provider value={{ signedIn, signIn, logout }}>
-			{props.children}
-		</LoginContext.Provider>
-	);
+    return (
+        <LoginContext.Provider value={{ signedIn, signIn, logout }}>
+            {props.children}
+        </LoginContext.Provider>
+    );
 };
 
 export default LoginProvider;
