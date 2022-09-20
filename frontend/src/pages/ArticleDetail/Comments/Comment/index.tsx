@@ -51,8 +51,7 @@ const Comment: React.FC<CommentProps> = function (props) {
 	function upvoteCommentHandler() {
 		postVote(commentId, 'like')
 			.then(() => {
-				if (likeCounter === -1) setLikeCounter((prevState) => (prevState += 2));
-				else setLikeCounter((prevState) => (prevState += 1));
+				window.location.reload();
 			})
 			.catch((err) => {
 				if (err.response.status === 401) {
@@ -64,8 +63,7 @@ const Comment: React.FC<CommentProps> = function (props) {
 	function downvoteCommentHandler() {
 		postVote(commentId, 'dislike')
 			.then(() => {
-				if (likeCounter === 1) setLikeCounter((prevState) => (prevState -= 2));
-				else setLikeCounter((prevState) => (prevState -= 1));
+				window.location.reload();
 			})
 			.catch((err) => {
 				if (err.response.status === 401) {
