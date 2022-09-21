@@ -30,10 +30,14 @@ export class ArticlesRepository {
   }
 
   updateArticle(article: articles): Promise<articles> {
-    return this.prisma.articles.update({
-      data: article,
-      where: { id: article.id },
-    });
+    try {
+      return this.prisma.articles.update({
+        data: article,
+        where: { id: article.id },
+      });
+    } catch {
+      throw new NotFoundException('Invalid article ID');
+    }
   }
 
   createArticle(
@@ -46,9 +50,15 @@ export class ArticlesRepository {
   }
 
   async deleteArticle(articleId: string, userId: string): Promise<articles> {
-    const articleToDelete = await this.prisma.articles.findUnique({
-      where: { id: articleId },
-    });
+    let articleToDelete;
+
+    try {
+      articleToDelete = await this.prisma.articles.findUnique({
+        where: { id: articleId },
+      });
+    } catch {
+      throw new NotFoundException('Invalid article ID');
+    }
 
     if (articleToDelete.user_id === userId) {
       return this.prisma.articles.delete({ where: { id: articleId } });
