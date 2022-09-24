@@ -1,5 +1,5 @@
 .markdown h1 {
-	font-size: 23px;
+	font-size: 25px;
 	font-weight: bold;
 	line-height: 1.5em;
 }
@@ -28,6 +28,11 @@
 }
 
 .markdown em {
+	font-size: 15px;
+	line-height: 1.3em;
+}
+
+.markdown a {
 	font-size: 15px;
 	line-height: 1.3em;
 }
